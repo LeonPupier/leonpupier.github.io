@@ -1,6 +1,7 @@
 import { addTaskbarAppIcon, removeTaskbarAppIcon } from './taskbar.js';
 import { initWindows, bringWindowToFront } from './windows.js';
 
+
 window.openWindow = function(id) {
     document.getElementById(id + "-window").classList.remove("hidden");
     let iconSrc = "assets/icons/default.png";
@@ -14,7 +15,7 @@ window.closeWindow = function(id) {
     removeTaskbarAppIcon(id);
 };
 
-// Pour accès global depuis taskbar.js
+// Global access for taskbar
 window.bringWindowToFront = bringWindowToFront;
 
 document.addEventListener('DOMContentLoaded', () => {

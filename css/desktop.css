@@ -1,0 +1,45 @@
+.wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('../assets/wallpapers/default.jpg') center/cover no-repeat;
+    transform: scale(1.2);
+    animation: wallpaper-zoom-wave 1s ease-in-out forwards;
+}
+
+@keyframes wallpaper-zoom-wave {
+    0% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.desktop {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.desktop-icon {
+    width: 80px;
+    text-align: center;
+    margin: 20px;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.desktop-icon img {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+}
+
+.desktop-icon span {
+    display: block;
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
+    font-size: 14px;
+}

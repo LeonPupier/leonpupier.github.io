@@ -25,6 +25,6 @@ export function setTaskbarActiveIcon(id) {
     if (icon) icon.classList.add('active');
 }
 
-// Pour accès global depuis windows.js
+// Global access for taskbar
 window.setTaskbarActiveIcon = setTaskbarActiveIcon;
-window.bringWindowToFront = null; // sera défini dans script.js
+window.bringWindowToFront = null;

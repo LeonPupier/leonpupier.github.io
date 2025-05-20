@@ -68,7 +68,7 @@ export function bringWindowToFront(win) {
     });
     win.style.zIndex = maxZ + 1;
 
-    // Active l'icône correspondante dans la taskbar
+    // Activate taskbar icon
     if (window.setTaskbarActiveIcon) {
         const id = win.id.replace('-window', '');
         window.setTaskbarActiveIcon(id);
