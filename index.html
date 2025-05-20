@@ -1,17 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
     <head>
+        <!-- Meta -->
         <meta charset="UTF-8">
-        <title>Léon Pupier OS</title>
+        <title>LéonOS</title>
 
+        <!-- CSS -->
         <link rel="stylesheet" href="css/style.css">
         <link rel="stylesheet" href="css/desktop.css">
         <link rel="stylesheet" href="css/windows.css">
         <link rel="stylesheet" href="css/taskbar.css">
+        <link rel="stylesheet" href="css/notifications.css">
     </head>
     <body>
+        <!-- Wallpaper -->
         <div class="wallpaper"></div>
-
+        
+        <!-- Desktop -->
         <div id="desktop" class="desktop">
             <div class="desktop-icon" onclick="openWindow('projet1')">
                 <img src="assets/icons/default.png" alt="Projet 1">
@@ -23,6 +28,7 @@
             </div>
         </div>
 
+        <!-- Windows -->
         <div id="projet1-window" class="window hidden">
             <div class="title-bar">
                 Project 1
@@ -31,8 +37,17 @@
             <div class="window-content">
                 <p>Description de mon projet 1...</p>
             </div>
-            <div class="resize-handle"></div>
+            <div class="resize-handle resize-handle-right"></div>
+            <div class="resize-handle resize-handle-left"></div>
+            <div class="resize-handle resize-handle-bottom"></div>
+            <div class="resize-handle resize-handle-top"></div>
+            <div class="resize-handle resize-handle-corner"></div>
+            <div class="resize-handle resize-handle-top-left"></div>
+            <div class="resize-handle resize-handle-top-right"></div>
+            <div class="resize-handle resize-handle-bottom-left"></div>
+            <div class="resize-handle resize-handle-bottom-right"></div>
         </div>
+
         <div id="projet2-window" class="window hidden">
             <div class="title-bar">
                 Project 2
@@ -41,12 +56,31 @@
             <div class="window-content">
                 <p>Description de mon projet 2...</p>
             </div>
-            <div class="resize-handle"></div>
+            <div class="resize-handle resize-handle-right"></div>
+            <div class="resize-handle resize-handle-left"></div>
+            <div class="resize-handle resize-handle-bottom"></div>
+            <div class="resize-handle resize-handle-top"></div>
+            <div class="resize-handle resize-handle-corner"></div>
+            <div class="resize-handle resize-handle-top-left"></div>
+            <div class="resize-handle resize-handle-top-right"></div>
+            <div class="resize-handle resize-handle-bottom-left"></div>
+            <div class="resize-handle resize-handle-bottom-right"></div>
         </div>
 
+        <div id="notification-toast-container" class="notification-toast-container"></div>
+        <div id="notification-history-panel" class="notification-history-panel">
+            <div class="notification-history-header">
+                Notifications
+                <button id="close-notification-history" class="close-btn">✕</button>
+            </div>
+            <div id="notification-history-list" class="notification-history-list"></div>
+        </div>
+
+        <!-- Taskbar -->
         <div id="taskbar" class="taskbar">
             <div class="taskbar-left">
             </div>
+
             <div class="taskbar-center">
                 <button class="start-btn taskbar-item">
                     <img src="assets/icons/os.png" alt="Start menu" />
@@ -57,11 +91,17 @@
                 </div>
                 <div id="taskbar-apps"></div>
             </div>
+
             <div class="taskbar-right">
+                <div class="notification-icon" id="notification-icon">
+                    <img src="assets/icons/notification.png" alt="Notifications" />
+                    <span id="notification-badge" class="notification-badge" style="display:none;">0</span>
+                </div>
                 <span id="clock"></span>
             </div>
         </div>
 
+        <!-- Script -->
         <script type="module" src="js/script.js"></script>
     </body>
 </html>

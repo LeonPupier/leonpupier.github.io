@@ -2,7 +2,7 @@
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100vw;
+    right: 0;
     height: 56px;
     background: rgba(255,255,255,0.85);
     box-shadow: 0 -2px 16px rgba(0,0,0,0.12);
@@ -10,7 +10,7 @@
     align-items: center;
     justify-content: space-between;
     z-index: 100;
-    padding: 0 24px;
+    padding: 0 8px;
     backdrop-filter: blur(8px);
 }
 
@@ -46,11 +46,12 @@
 }
 
 .taskbar-right {
-    min-width: 80px;
+    min-width: 0;
     justify-content: flex-end;
     font-family: 'Segoe UI', Arial, sans-serif;
     font-size: 16px;
     color: #222;
+    gap: 8px;
 }
 
 .taskbar-left > * {
@@ -110,7 +111,7 @@
     outline: none;
     font-size: 15px;
     color: #222;
-    width: 140px;
+    width: 200px;
     padding: 4px 0;
 }
 
@@ -135,13 +136,17 @@
     padding: 4px;
     opacity: 0;
     transform: translateY(30px);
-    animation: taskbar-app-icon-in 0.35s cubic-bezier(.4,1.7,.6,.97) forwards;
+    animation: taskbar-app-icon-in 0.35s cubic-bezier(0.4, 1.7, 0.6, 0.97) forwards;
 }
 
 @keyframes taskbar-app-icon-in {
+    from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.95);
+    }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
     }
 }
 
@@ -166,8 +171,26 @@
     height: 4px;
     border-radius: 4px;
     background: #0078d4;
+    animation: taskbar-dot-in 0.3s cubic-bezier(0.4, 1.7, 0.6, 0.97);
+}
+
+@keyframes taskbar-dot-in {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.5);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
 }
 
 .taskbar-app-icon {
     position: relative;
+}
+
+#clock {
+    width: fit-content;
+    text-align: right;
+    margin-right: 8px;
 }
