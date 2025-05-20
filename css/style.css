@@ -19,3 +19,12 @@ img {
     -ms-user-select: none;
     pointer-events: auto;
 }
+
+.window-content {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.window-content::-webkit-scrollbar {
+    display: none;
+}

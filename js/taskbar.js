@@ -16,13 +16,23 @@ export function addTaskbarAppIcon(id, iconSrc = "assets/icons/default.png") {
 
 export function removeTaskbarAppIcon(id) {
     const icon = document.getElementById('taskbar-app-' + id);
-    if (icon) icon.remove();
+    if (icon) {
+        icon.classList.add('hide');
+        icon.addEventListener('animationend', () => {
+            icon.remove();
+        }, { once: true });
+    }
 }
 
 export function setTaskbarActiveIcon(id) {
-    document.querySelectorAll('.taskbar-app-icon').forEach(icon => icon.classList.remove('active'));
+    document.querySelectorAll('.taskbar-app-icon').forEach(icon => {
+        icon.classList.remove('active');
+        void icon.offsetWidth;
+    });
     const icon = document.getElementById('taskbar-app-' + id);
-    if (icon) icon.classList.add('active');
+    if (icon) {
+        icon.classList.add('active');
+    }
 }
 
 // Global access for taskbar

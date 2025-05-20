@@ -11,6 +11,8 @@
         <link rel="stylesheet" href="css/windows.css">
         <link rel="stylesheet" href="css/taskbar.css">
         <link rel="stylesheet" href="css/notifications.css">
+
+        <link rel="stylesheet" href="css/gallery.css">
     </head>
     <body>
         <!-- Wallpaper -->
@@ -18,55 +20,31 @@
         
         <!-- Desktop -->
         <div id="desktop" class="desktop">
-            <div class="desktop-icon" onclick="openWindow('projet1')">
-                <img src="assets/icons/default.png" alt="Projet 1">
-                <span>Project 1</span>
+            <div class="desktop-icon" onclick="openWindow('aboutme')">
+                <img src="assets/icons/aboutme.png" alt="About me">
+                <span>About me</span>
             </div>
-            <div class="desktop-icon" onclick="openWindow('projet2')">
-                <img src="assets/icons/default.png" alt="Projet 2">
-                <span>Project 2</span>
+            <div class="desktop-icon" onclick="openWindow('journey')">
+                <img src="assets/icons/journey.png" alt="Journey">
+                <span>Journey</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('gallery')">
+                <img src="assets/icons/gallery.png" alt="Gallery">
+                <span>Gallery</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('contact')">
+                <img src="assets/icons/contact.png" alt="Contact">
+                <span>Contact</span>
             </div>
         </div>
 
         <!-- Windows -->
-        <div id="projet1-window" class="window hidden">
-            <div class="title-bar">
-                Project 1
-                <button onclick="closeWindow('projet1')" class="close-btn">✕</button>
-            </div>
-            <div class="window-content">
-                <p>Description de mon projet 1...</p>
-            </div>
-            <div class="resize-handle resize-handle-right"></div>
-            <div class="resize-handle resize-handle-left"></div>
-            <div class="resize-handle resize-handle-bottom"></div>
-            <div class="resize-handle resize-handle-top"></div>
-            <div class="resize-handle resize-handle-corner"></div>
-            <div class="resize-handle resize-handle-top-left"></div>
-            <div class="resize-handle resize-handle-top-right"></div>
-            <div class="resize-handle resize-handle-bottom-left"></div>
-            <div class="resize-handle resize-handle-bottom-right"></div>
-        </div>
+        <div id="aboutme-window" class="window hidden"></div>
+        <div id="journey-window" class="window hidden"></div>
+        <div id="gallery-window" class="window hidden"></div>
+        <div id="contact-window" class="window hidden"></div>
 
-        <div id="projet2-window" class="window hidden">
-            <div class="title-bar">
-                Project 2
-                <button onclick="closeWindow('projet2')" class="close-btn">✕</button>
-            </div>
-            <div class="window-content">
-                <p>Description de mon projet 2...</p>
-            </div>
-            <div class="resize-handle resize-handle-right"></div>
-            <div class="resize-handle resize-handle-left"></div>
-            <div class="resize-handle resize-handle-bottom"></div>
-            <div class="resize-handle resize-handle-top"></div>
-            <div class="resize-handle resize-handle-corner"></div>
-            <div class="resize-handle resize-handle-top-left"></div>
-            <div class="resize-handle resize-handle-top-right"></div>
-            <div class="resize-handle resize-handle-bottom-left"></div>
-            <div class="resize-handle resize-handle-bottom-right"></div>
-        </div>
-
+        <!-- Notification Toast -->
         <div id="notification-toast-container" class="notification-toast-container"></div>
         <div id="notification-history-panel" class="notification-history-panel">
             <div class="notification-history-header">

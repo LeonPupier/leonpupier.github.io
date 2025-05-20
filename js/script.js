@@ -1,14 +1,43 @@
 import { addTaskbarAppIcon, removeTaskbarAppIcon } from './taskbar.js';
-import { initWindows, bringWindowToFront } from './windows.js';
+import { initWindow, bringWindowToFront } from './windows.js';
 import { initNotifications, pushNotification } from './notifications.js';
 
+import { initGallery } from './gallery.js';
+
+
+function centerWindow(win) {
+    const rect = win.getBoundingClientRect();
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const left = Math.max(0, (vw - rect.width) / 2);
+    const top = Math.max(0, (vh - rect.height) / 2);
+    win.style.left = left + "px";
+    win.style.top = top + "px";
+}
 
 window.openWindow = function(id) {
-    document.getElementById(id + "-window").classList.remove("hidden");
-    let iconSrc = "assets/icons/default.png";
-    if (id === "projet1") iconSrc = "assets/icons/default.png";
-    if (id === "projet2") iconSrc = "assets/icons/default.png";
-    addTaskbarAppIcon(id, iconSrc);
+    const win = document.getElementById(id + "-window");
+    if (!win) return;
+    addTaskbarAppIcon(id, `assets/icons/${id}.png`);
+    if (!win.dataset.loaded) {
+        fetch(`apps/${id}.html`)
+            .then(res => res.text())
+            .then(html => {
+                win.innerHTML = html;
+                win.dataset.loaded = "1";
+                initWindow(win);
+
+                if (id === "gallery") initGallery();
+
+                setTimeout(() => centerWindow(win), 0);
+            });
+    } else {
+        if (id === "gallery") initGallery();
+        setTimeout(() => centerWindow(win), 0);
+    }
+    win.classList.remove("hidden");
+    if (window.bringWindowToFront) window.bringWindowToFront(win);
 };
 
 window.closeWindow = function(id) {
@@ -28,7 +57,7 @@ function updateClock() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-    initWindows();
+    document.querySelectorAll('.window').forEach(win => initWindow(win));
     initNotifications();
 
     // Clock

@@ -1,0 +1,110 @@
+#gallery-window {
+    width: 800px;
+    height: 700px;
+    min-width: 800px;
+    min-height: 700px;
+}
+
+.gallery-content {
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+    position: relative;
+}
+
+.gallery-content.noscroll {
+    overflow: hidden !important;
+}
+
+.gallery-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.gallery-grid img {
+    height: 120px;
+    width: auto;
+    object-fit: contain;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    transition: transform 0.2s;
+    cursor: pointer;
+    background: #fff;
+    max-width: 100%;
+}
+
+.gallery-grid img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.gallery-section {
+    margin-bottom: 32px;
+}
+
+.gallery-section:last-child {
+    margin-bottom: 48px;
+}
+
+.gallery-section h2 {
+    margin: 0 0 4px 0;
+    font-size: 1.2em;
+    color: #0078d4;
+    font-weight: 600;
+}
+
+.gallery-section hr {
+    border: none;
+    border-top: 2px solid #e0e0e0;
+    margin: 8px 0 16px 0;
+}
+
+.gallery-lightbox {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: rgba(30, 40, 60, 0.75);
+    transition: opacity 0.2s;
+    padding: 32px 0;
+    z-index: 10;
+}
+
+.gallery-lightbox.hidden {
+    display: none;
+}
+
+.gallery-lightbox-backdrop {
+    position: absolute;
+    inset: 0;
+    background: transparent;
+}
+
+.gallery-lightbox img {
+    max-width: 90%;
+    max-height: 80%;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    background: #fff;
+    z-index: 1;
+    display: block;
+    margin-bottom: 16px;
+}
+
+.gallery-lightbox-caption {
+    color: #fff;
+    text-align: center;
+    margin-top: 0;
+    font-size: 1.1em;
+    text-shadow: 0 2px 8px #222;
+    z-index: 2;
+}
