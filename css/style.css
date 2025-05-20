@@ -1,0 +1,307 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+body, * {
+    user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+img {
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    pointer-events: auto;
+}
+
+.wallpaper {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('../assets/wallpapers/default.jpg') center/cover no-repeat;
+    transform: scale(1.2);
+    animation: wallpaper-zoom-wave 1s ease-in-out forwards;
+}
+
+@keyframes wallpaper-zoom-wave {
+    0% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.desktop {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+.desktop-icon {
+    width: 80px;
+    text-align: center;
+    margin: 20px;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+}
+
+.desktop-icon img {
+    width: 48px;
+    height: 48px;
+    background: transparent;
+}
+
+.desktop-icon span {
+    display: block;
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
+    font-size: 14px;
+}
+
+.window {
+    position: absolute;
+    top: 100px;
+    left: 100px;
+    width: 400px;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+    background: rgba(255,255,255,0.95);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+    z-index: 10;
+    overflow: hidden;
+    animation: fadeIn 0.2s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.98);}
+    to { opacity: 1; transform: scale(1);}
+}
+
+.hidden {
+    display: none;
+}
+
+.title-bar {
+    background: linear-gradient(90deg, #0078d4 0%, #005fa3 100%);
+    color: white;
+    padding: 10px 16px;
+    font-weight: 500;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+
+.close-btn:hover {
+    background: rgba(255,255,255,0.2);
+}
+
+.window-content {
+    padding: 20px;
+    color: #222;
+}
+
+.taskbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 56px;
+    background: rgba(255,255,255,0.85);
+    box-shadow: 0 -2px 16px rgba(0,0,0,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    z-index: 100;
+    padding: 0 24px;
+    backdrop-filter: blur(8px);
+}
+
+.taskbar-left, .taskbar-center, .taskbar-right {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.start-btn {
+    background: none;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.start-btn img {
+    width: 32px;
+    height: 32px;
+}
+
+.start-btn:hover {
+    background: rgba(0,120,212,0.08);
+}
+
+.taskbar-center {
+    flex: 1;
+    justify-content: center;
+}
+
+.taskbar-right {
+    min-width: 80px;
+    justify-content: flex-end;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    font-size: 16px;
+    color: #222;
+}
+
+.taskbar-left > * {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
+.taskbar-left > *:nth-child(1) { animation-delay: 0.1s; }
+.taskbar-left > *:nth-child(2) { animation-delay: 0.2s; }
+
+.taskbar-center > * {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
+.taskbar-center > *:nth-child(1) { animation-delay: 0.3s; }
+.taskbar-center > *:nth-child(2) { animation-delay: 0.45s; }
+
+.taskbar-right > * {
+    opacity: 0;
+    transform: translateY(40px);
+    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
+.taskbar-right > *:nth-child(1) { animation-delay: 0.6s; }
+
+@keyframes taskbar-slide-up {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: rgba(240, 240, 240, 0.95);
+    border-radius: 8px;
+    margin-left: 6px;
+    padding: 4px 12px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s;
+}
+
+.search-bar:focus-within {
+    box-shadow: 0 2px 8px rgba(0, 120, 212, 0.15);
+}
+
+.search-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 8px;
+}
+
+.search-bar input {
+    border: none;
+    background: transparent;
+    outline: none;
+    font-size: 15px;
+    color: #222;
+    width: 140px;
+    padding: 4px 0;
+}
+
+#taskbar-apps {
+    display: flex;
+    align-items: center;
+    margin: 0 4px;
+    gap: 2px;
+}
+
+.taskbar-app-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    background: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin: 0 2px;
+    padding: 4px;
+    opacity: 0;
+    transform: translateY(30px);
+    animation: taskbar-app-icon-in 0.35s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
+
+@keyframes taskbar-app-icon-in {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.taskbar-app-icon img {
+    width: 32px;
+    height: 32px;
+}
+
+.taskbar-app-icon.active,
+.taskbar-app-icon:hover {
+    background: rgba(0,120,212,0.08);
+}
+
+.taskbar-app-icon.active::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 4px;
+    border-radius: 4px;
+    background: #0078d4;
+}
+
+.taskbar-app-icon {
+    position: relative;
+}
+
+
+
+.resize-handle {
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    right: 2px;
+    bottom: 2px;
+    cursor: se-resize;
+    z-index: 2;
+    background: transparent;
+}

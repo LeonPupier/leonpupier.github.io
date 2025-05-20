@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <title>Léon Pupier OS</title>
+        <link rel="stylesheet" href="css/style.css">
+    </head>
+    <body>
+        <div class="wallpaper"></div>
+
+        <div id="desktop" class="desktop">
+            <div class="desktop-icon" onclick="openWindow('projet1')">
+                <img src="assets/icons/default.png" alt="Projet 1">
+                <span>Project 1</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('projet2')">
+                <img src="assets/icons/default.png" alt="Projet 2">
+                <span>Project 2</span>
+            </div>
+        </div>
+
+        <div id="projet1-window" class="window hidden">
+            <div class="title-bar">
+                Project 1
+                <button onclick="closeWindow('projet1')" class="close-btn">✕</button>
+            </div>
+            <div class="window-content">
+                <p>Description de mon projet 1...</p>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+        <div id="projet2-window" class="window hidden">
+            <div class="title-bar">
+                Project 2
+                <button onclick="closeWindow('projet2')" class="close-btn">✕</button>
+            </div>
+            <div class="window-content">
+                <p>Description de mon projet 2...</p>
+            </div>
+            <div class="resize-handle"></div>
+        </div>
+
+        <div id="taskbar" class="taskbar">
+            <div class="taskbar-left">
+            </div>
+            <div class="taskbar-center">
+                <button class="start-btn taskbar-item">
+                    <img src="assets/icons/os.png" alt="Start menu" />
+                </button>
+                <div class="search-bar taskbar-item">
+                    <img class="search-icon" src="assets/icons/search.png" />
+                    <input type="text" placeholder="Search" />
+                </div>
+                <div id="taskbar-apps"></div>
+            </div>
+            <div class="taskbar-right">
+                <span id="clock"></span>
+            </div>
+        </div>
+
+        <script type="module" src="js/script.js"></script>
+    </body>
+</html>
