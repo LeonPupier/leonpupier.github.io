@@ -26,13 +26,13 @@ export function removeTaskbarAppIcon(id) {
 
 export function setTaskbarActiveIcon(id) {
     document.querySelectorAll('.taskbar-app-icon').forEach(icon => {
-        icon.classList.remove('active');
-        void icon.offsetWidth;
+        if (icon.id === 'taskbar-app-' + id) {
+            if (icon.classList.contains('active')) return;
+            icon.classList.add('active');
+        } else {
+            icon.classList.remove('active');
+        }
     });
-    const icon = document.getElementById('taskbar-app-' + id);
-    if (icon) {
-        icon.classList.add('active');
-    }
 }
 
 // Global access for taskbar

@@ -16,25 +16,55 @@
     </head>
     <body>
         <!-- Wallpaper -->
-        <div class="wallpaper"></div>
+        <div class="wallpaper">
+            <img src="assets/wallpapers/2.jpg">
+        </div>
         
         <!-- Desktop -->
         <div id="desktop" class="desktop">
-            <div class="desktop-icon" onclick="openWindow('aboutme')">
-                <img src="assets/icons/aboutme.png" alt="About me">
-                <span>About me</span>
+            <div id="desktop-selection" class="desktop-selection" style="display:none;"></div>
+
+            <div class="desktop-row">
+                <div class="desktop-icon" onclick="openWindow('aboutme')">
+                    <img src="assets/icons/aboutme.png" alt="About me">
+                    <span>About me</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('journey')">
+                    <img src="assets/icons/journey.png" alt="Journey">
+                    <span>Journey</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('gallery')">
+                    <img src="assets/icons/gallery.png" alt="Gallery">
+                    <span>Gallery</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('contact')">
+                    <img src="assets/icons/contact.png" alt="Contact">
+                    <span>Contact</span>
+                </div>
             </div>
-            <div class="desktop-icon" onclick="openWindow('journey')">
-                <img src="assets/icons/journey.png" alt="Journey">
-                <span>Journey</span>
+
+            <div class="desktop-row desktop-row-secondary">
+                <div class="desktop-icon" onclick="openWindow('web')">
+                    <img src="assets/icons/web.png" alt="Web">
+                    <span>Web</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('terminal')">
+                    <img src="assets/icons/terminal.png" alt="Terminal">
+                    <span>Terminal</span>
+                </div>
             </div>
-            <div class="desktop-icon" onclick="openWindow('gallery')">
-                <img src="assets/icons/gallery.png" alt="Gallery">
-                <span>Gallery</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('contact')">
-                <img src="assets/icons/contact.png" alt="Contact">
-                <span>Contact</span>
+
+            <div class="desktop-row desktop-row-secondary"></div>
+
+            <div class="desktop-row desktop-row-secondary">
+                <div class="desktop-icon" onclick="openWindow('klbcustom')">
+                    <img src="assets/icons/default.png" alt="KLB Custom">
+                    <span>KLB Custom</span>
+                </div>
+                <div class="desktop-icon" onclick="openWindow('klbshot')">
+                    <img src="assets/icons/default.png" alt="KLB Shot">
+                    <span>KLB Shot</span>
+                </div>
             </div>
         </div>
 

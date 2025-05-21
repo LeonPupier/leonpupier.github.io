@@ -2,7 +2,8 @@
     position: fixed;
     inset: 0;
     z-index: -1;
-    background: url('../assets/wallpapers/default.jpg') center/cover no-repeat;
+    width: 100vw;
+    height: 100vh;
     transform: scale(1.2);
     animation: wallpaper-zoom-wave 1s ease-in-out forwards;
 }
@@ -16,17 +17,39 @@
     }
 }
 
-.desktop {
+.wallpaper video,
+.wallpaper img {
     width: 100vw;
     height: 100vh;
+    object-fit: cover;
+    display: block;
+}
+
+.desktop {
+    display: flex;
     position: relative;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100vw;
+    height: 100vh;
+    justify-content: flex-start;
+}
+
+.desktop-row {
+    display: flex;
+    flex-direction: row;
+    gap: 32px;
+    margin-top: 32px;
+    margin-left: 32px;
 }
 
 .desktop-icon {
-    width: 80px;
-    text-align: center;
-    margin: 20px;
     display: inline-block;
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    padding: 10px;
+    text-align: center;
     cursor: pointer;
     user-select: none;
 }
@@ -42,4 +65,19 @@
     color: #fff;
     text-shadow: 0 1px 4px #000;
     font-size: 14px;
+}
+
+.desktop-selection {
+    position: fixed;
+    z-index: 2000;
+    border: 2px solid #0078d4;
+    background: rgba(0,120,212,0.10);
+    pointer-events: none;
+    border-radius: 6px;
+}
+
+.desktop-icon.selected {
+    background: rgba(0,120,212,0.18);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #0078d455;
 }
