@@ -44,7 +44,9 @@
 }
 
 .desktop-icon {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     position: absolute;
     width: 80px;
     height: 80px;
@@ -98,11 +100,12 @@
 }
 
 .desktop-icon span {
-    display: block;
+    display: inline-block;
     color: #fff;
     text-shadow: 0 1px 4px #000;
     font-size: 14px;
     margin-top: 6px;
+    text-align: center;
 }
 
 .desktop-selection {
@@ -118,6 +121,36 @@
     background: rgba(0,120,212,0.18);
     border-radius: 8px;
     box-shadow: 0 2px 8px #0078d455;
+}
+
+.desktop-icon-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 6px;
+    color: #fff;
+    text-shadow: 0 1px 4px #000;
+    font-size: 14px;
+    text-align: center;
+}
+
+.desktop-icon-label-text {
+    display: inline;
+    margin: 0;
+    text-align: left;
+}
+
+.desktop-icon-external {
+    display: inline-block;
+    position: static;
+    align-items: center;
+    vertical-align: middle;
+    margin-left: 6px;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    opacity: 0.85;
+    transform: translateY(-4px);
 }
 
 .desktop-context-menu {

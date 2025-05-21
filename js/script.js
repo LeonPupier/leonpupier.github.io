@@ -452,6 +452,49 @@ changeWallpaperBtn.addEventListener('click', function() {
 
 
 // --------------------------------------------------------
+// Setup href links for desktop icons
+// --------------------------------------------------------
+
+
+function initHrefApps() {
+    document.querySelectorAll('.desktop-icon').forEach(icon => {
+        icon.addEventListener('dblclick', (e) => {
+            const appId = icon.dataset.app;
+            const href = icon.dataset.href;
+            if (appId) {
+                openWindow(appId);
+            } else if (href) {
+                window.open(href, '_blank');
+            }
+        });
+    });
+
+    document.querySelectorAll('.desktop-icon[data-href]').forEach(icon => {
+        // Add external icon for Href apps
+        const extIcon = document.createElement('span');
+        extIcon.className = 'desktop-icon-external';
+        extIcon.innerHTML = `<svg width="16" height="16" viewBox="0 0 20 20" fill="none">
+            <path d="M7 13L13 7M13 7H8M13 7V12" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <rect x="3" y="3" width="14" height="14" rx="3" stroke="white" stroke-width="2"/>
+        </svg>`;
+        
+        const span = icon.querySelector('span');
+        if (span) {
+            const label = document.createElement('span');
+            label.className = 'desktop-icon-label';
+            const textSpan = span.cloneNode(true);
+            textSpan.classList.add('desktop-icon-label-text');
+            label.appendChild(textSpan);
+            label.appendChild(extIcon);
+            span.replaceWith(label);
+        } else {
+            icon.appendChild(extIcon);
+        }
+    });
+}
+
+
+// --------------------------------------------------------
 // DOMContentLoaded
 // --------------------------------------------------------
 
@@ -465,6 +508,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateTaskbarInfo();
 
     document.querySelectorAll('.window').forEach(win => initWindow(win));
+    initHrefApps();
     initNotifications();
 
     // Clock
