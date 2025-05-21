@@ -334,3 +334,24 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+.taskbar-tooltip {
+    position: fixed;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.8);
+    color: black;
+    padding: 7px 18px;
+    border-radius: 7px;
+    font-size: 15px;
+    box-shadow: 0 4px 24px #0003;
+    pointer-events: none;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(8px) scale(0.98);
+    transition: opacity 0.18s, transform 0.18s;
+}
+
+.taskbar-tooltip.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}

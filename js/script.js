@@ -162,8 +162,8 @@ window.addEventListener('mouseup', () => {
 window.addEventListener('keydown', (e) => {
     if (e.key === "Enter" && document.activeElement === document.body) {
         document.querySelectorAll('.desktop-icon.selected').forEach(icon => {
-            const appId = icon.getAttribute('onclick').match(/openWindow\('([^']+)'/)[1];
-            openWindow(appId);
+            const appId = icon.dataset.app;
+            if (appId) openWindow(appId);
         });
     }
 });
