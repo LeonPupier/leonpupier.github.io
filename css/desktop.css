@@ -106,3 +106,48 @@
     border-radius: 8px;
     box-shadow: 0 2px 8px #0078d455;
 }
+
+.desktop-context-menu {
+    position: fixed;
+    z-index: 3000;
+    min-width: 180px;
+    background: rgba(255, 255, 255, 0.98);
+    color: #222;
+    border-radius: 10px;
+    box-shadow: 0 8px 32px #0002;
+    padding: 6px 0;
+    font-family: inherit;
+    font-size: 15px;
+    display: none;
+    border: 1px solid #e6e6e6;
+}
+
+.desktop-context-menu.fade-in {
+    animation: context-menu-fade-in 0.22s cubic-bezier(.4,1.7,.6,.97);
+}
+
+@keyframes context-menu-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.98);
+        filter: blur(2px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0);
+    }
+}
+
+.context-menu-item {
+    padding: 10px 22px;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    user-select: none;
+    border-radius: 6px;
+}
+
+.context-menu-item:hover {
+    background: #e6f0fa;
+    color: #0078d4;
+}

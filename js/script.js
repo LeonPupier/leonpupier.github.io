@@ -351,6 +351,56 @@ function updateTaskbarInfo() {
     infoIndex = (infoIndex + 1) % infoList.length;
 }
 
+
+// --------------------------------------------------------
+// Context menu for desktop icons
+// --------------------------------------------------------
+
+
+const contextMenu = document.getElementById('desktop-context-menu');
+const changeWallpaperBtn = document.getElementById('change-wallpaper-btn');
+
+// Display the context menu
+desktop.addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    contextMenu.classList.remove('fade-in');
+    void contextMenu.offsetWidth;
+    contextMenu.style.left = e.clientX + 'px';
+    contextMenu.style.top = e.clientY + 'px';
+    contextMenu.style.display = 'block';
+    contextMenu.classList.add('fade-in');
+});
+
+// Hide the context menu when clicking outside
+document.addEventListener('click', function(e) {
+    if (!contextMenu.contains(e.target)) {
+        contextMenu.style.display = 'none';
+        contextMenu.classList.remove('fade-in');
+    }
+});
+
+// Option to change wallpaper
+changeWallpaperBtn.addEventListener('click', function() {
+    contextMenu.style.display = 'none';
+    const wallpapers = [
+        'assets/wallpapers/1.jpg',
+        'assets/wallpapers/2.jpg',
+        'assets/wallpapers/3.jpg',
+        'assets/wallpapers/4.jpg',
+    ];
+    const wallpaperImg = document.querySelector('.wallpaper img');
+    if (wallpaperImg) {
+        // Randomly select a new wallpaper
+        let current = wallpaperImg.src.split('/').pop();
+        let next;
+        do {
+            next = wallpapers[Math.floor(Math.random() * wallpapers.length)];
+        } while (next.endsWith(current));
+        wallpaperImg.src = next;
+    }
+});
+
+
 // --------------------------------------------------------
 // DOMContentLoaded
 // --------------------------------------------------------
