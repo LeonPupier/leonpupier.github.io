@@ -183,13 +183,30 @@ document.querySelectorAll('.desktop-icon').forEach(icon => {
         e.preventDefault();
     });
 
+    // just select icon on click
     icon.addEventListener('click', (e) => {
         if (wasDragging) {
             e.stopImmediatePropagation();
             e.preventDefault();
             wasDragging = false;
+            return;
         }
-    }, true);
+        document.querySelectorAll('.desktop-icon.selected').forEach(i => i.classList.remove('selected'));
+        icon.classList.add('selected');
+    });
+
+    // Open app on double-click
+    icon.addEventListener('dblclick', (e) => {
+        const appId = icon.dataset.app;
+        if (appId) openWindow(appId);
+
+        const img = icon.querySelector('img');
+        if (img) {
+            img.classList.remove('bounce');
+            void img.offsetWidth;
+            img.classList.add('bounce');
+        }
+    });
 });
 
 window.addEventListener('mousemove', (e) => {

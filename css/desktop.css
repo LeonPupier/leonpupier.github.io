@@ -84,6 +84,19 @@
     background: transparent;
 }
 
+@keyframes desktop-icon-bounce {
+    0%   { transform: scale(1); }
+    20%  { transform: scale(1.18, 0.90); }
+    40%  { transform: scale(0.92, 1.12); }
+    60%  { transform: scale(1.10, 0.96); }
+    80%  { transform: scale(0.98, 1.04); }
+    100% { transform: scale(1); }
+}
+
+.desktop-icon img.bounce {
+    animation: desktop-icon-bounce 0.44s cubic-bezier(.4,1.7,.6,.97);
+}
+
 .desktop-icon span {
     display: block;
     color: #fff;
