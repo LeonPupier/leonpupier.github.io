@@ -295,6 +295,61 @@ rows.forEach((row) => {
     rowIndex++;
 });
 
+const allIcons = Array.from(document.querySelectorAll('.desktop-icon'));
+allIcons.forEach((icon, i) => {
+    icon.style.animationDelay = (i * 0.07) + 's';
+    icon.style.opacity = '0';
+    icon.style.transform = 'scale(0.6)';
+    void icon.offsetWidth;
+    icon.classList.remove('desktop-icon-animated');
+    setTimeout(() => {
+        icon.classList.add('desktop-icon-animated');
+    }, 10);
+});
+
+
+// --------------------------------------------------------
+// Taskbar informations
+// --------------------------------------------------------
+
+
+const infoList = [
+    { title: "Credits", icon: "credits", text: "Made by Léon Pupier - 2025" },
+    { title: "Weather", icon: "weather", text: "Idk what tomorrow's weather will be like." },
+    { title: "Shortcut", icon: "shortcut", text: "You can drag icons to rearrange your desktop." },
+    { title: "Motivation", icon: "motivation", text: "Stay curious. Keep exploring!" },
+    { title: "Shortcut", icon: "shortcut", text: "Press Enter to open selected icons." },
+    { title: "Contact", icon: "contact", text: "Looking for a job? Let's connect!" },
+    { title: "Shortcut", icon: "shortcut", text: "You can resize windows by dragging the corners." },
+];
+
+let infoIndex = 0;
+
+function updateTaskbarInfo() {
+    const box = document.getElementById('taskbar-info-box');
+    const title = document.getElementById('taskbar-info-title');
+    const text = document.getElementById('taskbar-info-text');
+    const iconBox = document.getElementById('taskbar-info-icon');
+    const icon = iconBox ? iconBox.querySelector('img') : null;
+    if (box && title && text && icon && iconBox) {
+        // Fade out
+        box.classList.remove('fade-in');
+        box.classList.add('fade-out');
+        iconBox.classList.remove('fade-in');
+        iconBox.classList.add('fade-out');
+        setTimeout(() => {
+            title.textContent = infoList[infoIndex].title;
+            text.textContent = infoList[infoIndex].text;
+            icon.src = `assets/icons/${infoList[infoIndex].icon}.png`;
+            // Fade in
+            box.classList.remove('fade-out');
+            box.classList.add('fade-in');
+            iconBox.classList.remove('fade-out');
+            iconBox.classList.add('fade-in');
+        }, 350);
+    }
+    infoIndex = (infoIndex + 1) % infoList.length;
+}
 
 // --------------------------------------------------------
 // DOMContentLoaded
@@ -302,6 +357,13 @@ rows.forEach((row) => {
 
 
 document.addEventListener('DOMContentLoaded', () => {
+    desktop.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+    });
+
+    setInterval(updateTaskbarInfo, 5000);
+    updateTaskbarInfo();
+
     document.querySelectorAll('.window').forEach(win => initWindow(win));
     initNotifications();
 

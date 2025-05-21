@@ -52,6 +52,30 @@
     text-align: center;
     cursor: pointer;
     user-select: none;
+    animation: desktop-icon-zoom-in 0.38s cubic-bezier(.4,1.7,.6,.97) forwards;
+    opacity: 0;
+    transform: scale(0.6);
+}
+
+.desktop-icon.desktop-icon-animated {
+    opacity: 1;
+    transform: scale(1);
+    animation: desktop-icon-zoom-in 0.38s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
+
+@keyframes desktop-icon-zoom-in {
+    0% {
+        opacity: 0;
+        transform: scale(0.6);
+    }
+    80% {
+        opacity: 1;
+        transform: scale(1.08);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .desktop-icon img {
