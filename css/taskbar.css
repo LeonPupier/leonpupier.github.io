@@ -75,7 +75,6 @@
 .taskbar-right {
     min-width: 0;
     justify-content: flex-end;
-    font-family: 'Segoe UI', Arial, sans-serif;
     font-size: 16px;
     color: #222;
     gap: 8px;
