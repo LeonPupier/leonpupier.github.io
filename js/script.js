@@ -42,12 +42,43 @@ window.openWindow = function(id) {
         setTimeout(() => centerWindow(win), 0);
     }
     win.classList.remove("hidden");
+    win.classList.remove("minimized");
+    win.classList.remove("minimizing");
     if (window.bringWindowToFront) window.bringWindowToFront(win);
 };
 
+window.toggleMinimizeWindow = function(id) {
+    const win = document.getElementById(id + "-window");
+    if (!win) return;
+    if (win.classList.contains("minimized")) {
+        win.classList.remove("minimized");
+        win.classList.remove("hidden");
+        win.classList.remove("minimizing");
+        if (window.bringWindowToFront) window.bringWindowToFront(win);
+        if (window.setTaskbarActiveIcon) window.setTaskbarActiveIcon(id);
+    } else {
+        win.classList.add("minimizing");
+        win.addEventListener('animationend', function handler() {
+            win.classList.remove("minimizing");
+            win.classList.add("minimized");
+            win.classList.add("hidden");
+            win.removeEventListener('animationend', handler);
+            const taskbarIcon = document.getElementById('taskbar-app-' + id);
+            if (taskbarIcon) taskbarIcon.classList.remove('active');
+        });
+    }
+};
+
 window.closeWindow = function(id) {
-    document.getElementById(id + "-window").classList.add("hidden");
-    removeTaskbarAppIcon(id);
+    const win = document.getElementById(id + "-window");
+    if (!win) return;
+    win.classList.add("closing");
+    win.addEventListener('animationend', function handler() {
+        win.classList.remove("closing");
+        win.classList.add("hidden");
+        win.removeEventListener('animationend', handler);
+        removeTaskbarAppIcon(id);
+    });
 };
 
 window.bringWindowToFront = bringWindowToFront;
@@ -197,6 +228,8 @@ document.querySelectorAll('.desktop-icon').forEach(icon => {
 
     // Open app on double-click
     icon.addEventListener('dblclick', (e) => {
+        document.querySelectorAll('.desktop-icon.selected').forEach(i => i.classList.remove('selected'));
+
         const appId = icon.dataset.app;
         if (appId) openWindow(appId);
 

@@ -10,6 +10,21 @@
     transition: background 0.2s;
 }
 
+#close-notification-history {
+    background: none;
+    border: none;
+    color: rgb(0, 120, 212);
+    font-size: 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+    border-radius: 4px;
+    padding: 2px 8px;
+}
+
+#close-notification-history:hover {
+    background: rgba(0, 0, 0, 0.1);
+}
+
 .notification-icon:hover {
     background: rgba(0, 120, 212, 0.08);
 }

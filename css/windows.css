@@ -24,19 +24,16 @@
     display: none;
 }
 
-.title-bar {
-    position: relative;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 16px;
-    font-weight: 500;
-    color: white;
-    background: linear-gradient(90deg, #0078d4 0%, #005fa3 100%);
-    z-index: 20;
+.window.minimized {
+    display: none !important;
 }
 
-.close-btn {
+.window-controls {
+    display: flex;
+    gap: 6px;
+}
+
+.window-controls button {
     background: none;
     border: none;
     color: white;
@@ -47,8 +44,24 @@
     padding: 2px 8px;
 }
 
-.close-btn:hover {
-    background: rgba(255,255,255,0.2);
+.window-controls button:hover {
+    background: rgba(0, 0, 0, 0.3);
+}
+
+.window-controls .close-btn:hover {
+    background: rgba(255, 0, 0, 0.8);
+}
+
+.title-bar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    font-weight: 500;
+    color: white;
+    background: linear-gradient(90deg, #0078d4 0%, #005fa3 100%);
+    z-index: 20;
 }
 
 .window-content {
@@ -102,4 +115,44 @@
 .resize-handle-bottom-right {
     bottom: 0; right: 0; width: 16px; height: 16px;
     cursor: nwse-resize;
+}
+
+@keyframes window-minimize-vertical {
+    0% {
+        opacity: 1;
+        transform: scaleY(1);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scaleY(0);
+        filter: blur(2px);
+        pointer-events: none;
+    }
+}
+
+.window.minimizing {
+    animation: window-minimize-vertical 0.5s cubic-bezier(.4,1.7,.6,.97) forwards;
+    will-change: transform, opacity, filter;
+    pointer-events: none;
+}
+
+@keyframes window-close {
+    0% {
+        opacity: 1;
+        transform: scale(1);
+        filter: blur(0);
+    }
+    100% {
+        opacity: 0;
+        transform: scale(0.85);
+        filter: blur(2px);
+        pointer-events: none;
+    }
+}
+
+.window.closing {
+    animation: window-close 0.32s cubic-bezier(.4,1.7,.6,.97) forwards;
+    will-change: opacity, transform, filter;
+    pointer-events: none;
 }

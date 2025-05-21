@@ -6,11 +6,20 @@ export function addTaskbarAppIcon(id, iconSrc = "assets/icons/default.png") {
     btn.className = "taskbar-app-icon";
     btn.id = "taskbar-app-" + id;
     btn.innerHTML = `<img src="${iconSrc}" alt="${id}"/>`;
+
     btn.onclick = () => {
         const win = document.getElementById(id + "-window");
-        win.classList.remove("hidden");
-        if (window.bringWindowToFront) window.bringWindowToFront(win);
+        if (!win) return;
+        if (win.classList.contains("hidden") || win.classList.contains("minimized")) {
+            win.classList.remove("minimized");
+            win.classList.remove("hidden");
+            if (window.bringWindowToFront) window.bringWindowToFront(win);
+        } else {
+            win.classList.add("minimized");
+            win.classList.add("hidden");
+        }
     };
+    
     taskbar.appendChild(btn);
 }
 
