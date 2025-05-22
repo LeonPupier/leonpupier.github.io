@@ -98,24 +98,91 @@
 }
 
 .gallery-section {
-    margin-bottom: 32px;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+    padding: 0 0 32px 0;
+    margin-bottom: 0;
+    position: relative;
 }
 
-.gallery-section:last-child {
-    margin-bottom: 48px;
+.gallery-section-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 18px;
 }
 
-.gallery-section h2 {
-    margin: 0 0 4px 0;
-    font-size: 1.2em;
+.gallery-section-header h2 {
+    margin: 0;
+    font-size: 1.15em;
     color: #0078d4;
-    font-weight: 600;
+    font-weight: 700;
+    background: none;
+    padding: 0;
+    border-radius: 0;
+    box-shadow: none;
+}
+
+.gallery-section-header h2::before {
+    content: "";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 10px;
+    background: linear-gradient(135deg, #0078d4 60%, #00cfff 100%);
+    box-shadow: 0 0 8px #00cfff88;
+    animation: badge-pulse 1.2s infinite cubic-bezier(.4,1.7,.6,.97);
+    transition: box-shadow 0.2s, filter 0.2s;
+}
+
+@keyframes badge-pulse {
+    0%,100% {
+        box-shadow: 0 0 8px #00cfff88, 0 0 0px #00cfff44;
+        filter: brightness(1) saturate(1);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 0 22px #00cfffcc, 0 0 8px #00cfff88;
+        filter: brightness(1.1) saturate(1.1);
+        transform: scale(1.1);
+    }
+}
+
+.gallery-section-header .gallery-section-sep {
+    flex: 1;
+    height: 3px;
+    border: none;
+    background: linear-gradient(90deg, #b8e2ff 0%, #e3f0ff 100%);
+    border-radius: 2px;
+    opacity: 0.85;
+    transform: scaleX(0);
+    transform-origin: left;
+}
+
+.gallery-section-sep.animated {
+    animation: sep-grow-in 0.7s cubic-bezier(.4,1.7,.6,.97) forwards;
+    animation-delay: var(--sep-delay, 0s);
+}
+
+@keyframes sep-grow-in {
+    from {
+        transform: scaleX(0);
+        opacity: 0.3;
+    }
+    to {
+        transform: scaleX(1);
+        opacity: 0.85;
+    }
 }
 
 .gallery-section hr {
     border: none;
-    border-top: 2px solid #e0e0e0;
-    margin: 8px 0 16px 0;
+    border-top: 2px solid #e3f0ff;
+    margin: 0 0 32px 0;
+    position: relative;
+    z-index: 1;
 }
 
 .gallery-lightbox {

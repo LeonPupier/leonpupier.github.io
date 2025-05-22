@@ -17,11 +17,18 @@ export function initGallery() {
             }
         }
 
-        // Animate the images
+        // Animate the images on load
         img.style.opacity = 0;
         img.style.transform = 'scale(0.92) translateY(24px)';
         img.style.animation = 'gallery-img-in 0.44s cubic-bezier(.4,1.7,.6,.97) forwards';
         img.style.animationDelay = (i * 0.07) + 's';
+    });
+
+    document.querySelectorAll('.gallery-section-sep').forEach((sep, i) => {
+        sep.style.setProperty('--sep-delay', (i * 120) + 'ms');
+        setTimeout(() => {
+            sep.classList.add('animated');
+        }, 10);
     });
 
     // Open Lightbox on image click
