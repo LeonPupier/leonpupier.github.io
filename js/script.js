@@ -108,6 +108,16 @@ let selectStart = { x: 0, y: 0 };
 const desktop = document.getElementById('desktop');
 const selectionBox = document.getElementById('desktop-selection');
 
+// Unfocus all apps in the taskbar when clicking on the desktop
+desktop.addEventListener('mousedown', (e) => {
+    if (e.button === 0 && !e.target.closest('.window')) {
+        document.querySelectorAll('.taskbar-app-icon.active').forEach(icon => {
+            icon.classList.remove('active');
+        });
+    }
+});
+
+// Unselect all icons when clicking outside of them
 desktop.addEventListener('mousedown', (e) => {
     if (e.button !== 0) return;
     if (!e.target.closest('.desktop-icon')) {
@@ -119,6 +129,7 @@ desktop.addEventListener('mousedown', (e) => {
     }
 });
 
+// Start selection box on mousedown
 desktop.addEventListener('mousedown', (e) => {
     if (e.button !== 0 || e.target.closest('.desktop-icon')) return;
     isSelecting = true;
@@ -130,6 +141,7 @@ desktop.addEventListener('mousedown', (e) => {
     selectionBox.style.display = 'block';
 });
 
+// Update selection box and selected icons on mousemove
 window.addEventListener('mousemove', (e) => {
     if (!isSelecting) return;
     const x1 = Math.min(selectStart.x, e.clientX);
@@ -152,6 +164,7 @@ window.addEventListener('mousemove', (e) => {
     });
 });
 
+// Hide selection box on mouseup
 window.addEventListener('mouseup', () => {
     if (isSelecting) {
         isSelecting = false;
@@ -159,6 +172,7 @@ window.addEventListener('mouseup', () => {
     }
 });
 
+// Open selected icons on Enter key press
 window.addEventListener('keydown', (e) => {
     if (e.key === "Enter" && document.activeElement === document.body) {
         document.querySelectorAll('.desktop-icon.selected').forEach(icon => {
