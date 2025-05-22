@@ -438,15 +438,40 @@ changeWallpaperBtn.addEventListener('click', function() {
         'assets/wallpapers/3.jpg',
         'assets/wallpapers/4.jpg',
     ];
-    const wallpaperImg = document.querySelector('.wallpaper img');
-    if (wallpaperImg) {
-        // Randomly select a new wallpaper
+    const wallpaperDiv = document.querySelector('.wallpaper');
+    const wallpaperImg = wallpaperDiv.querySelector('img');
+    if (wallpaperImg && wallpaperDiv) {
         let current = wallpaperImg.src.split('/').pop();
         let next;
         do {
             next = wallpapers[Math.floor(Math.random() * wallpapers.length)];
         } while (next.endsWith(current));
-        wallpaperImg.src = next;
+
+        // Display the new wallpaper
+        const tempImg = new Image();
+        tempImg.onload = function() {
+            const newImg = document.createElement('img');
+            newImg.src = next;
+            newImg.style.opacity = 0;
+            newImg.style.position = 'absolute';
+            newImg.style.inset = 0;
+            newImg.style.width = '100vw';
+            newImg.style.height = '100vh';
+            newImg.style.objectFit = 'cover';
+            newImg.style.transition = 'opacity 0.5s';
+
+            wallpaperDiv.appendChild(newImg);
+
+            void newImg.offsetWidth;
+
+            newImg.style.opacity = 1;
+            newImg.style.animation = 'wallpaper-zoom-wave 1s ease-in-out forwards';
+
+            setTimeout(() => {
+                wallpaperImg.remove();
+            }, 500);
+        };
+        tempImg.src = next;
     }
 });
 
