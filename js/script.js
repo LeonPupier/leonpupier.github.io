@@ -415,6 +415,32 @@ function updateTaskbarInfo() {
     infoIndex = (infoIndex + 1) % infoList.length;
 }
 
+document.querySelectorAll('.start-btn').forEach(btn => {
+    const img = btn.querySelector('img, svg');
+    if (!img) return;
+    btn.addEventListener('mousedown', () => {
+        img.style.animation = 'none';
+        void img.offsetWidth;
+        img.style.animation = 'notif-click 0.18s cubic-bezier(.4,1.7,.6,.97)';
+        setTimeout(() => {
+            img.style.animation = 'none';
+        }, 180);
+    });
+});
+
+document.querySelectorAll('.notification-icon').forEach(icon => {
+    const img = icon.querySelector('img');
+    if (!img) return;
+    icon.addEventListener('mousedown', () => {
+        img.style.animation = 'none';
+        void img.offsetWidth;
+        img.style.animation = 'notif-click 0.18s cubic-bezier(.4,1.7,.6,.97)';
+        setTimeout(() => {
+            img.style.animation = 'none';
+        }, 180);
+    });
+});
+
 
 // --------------------------------------------------------
 // Context menu for desktop icons

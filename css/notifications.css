@@ -8,6 +8,7 @@
     cursor: pointer;
     border-radius: 8px;
     transition: background 0.2s;
+    animation-fill-mode: forwards;
 }
 
 #close-notification-history {
@@ -27,6 +28,12 @@
 
 .notification-icon:hover {
     background: rgba(0, 120, 212, 0.08);
+}
+
+@keyframes notif-click {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(0.88); }
+    100% { transform: scale(1); }
 }
 
 .notification-icon img {
