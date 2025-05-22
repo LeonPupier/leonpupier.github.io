@@ -415,6 +415,7 @@ function updateTaskbarInfo() {
     infoIndex = (infoIndex + 1) % infoList.length;
 }
 
+// Animate the taskbar icon on click
 document.querySelectorAll('.start-btn').forEach(btn => {
     const img = btn.querySelector('img, svg');
     if (!img) return;
@@ -428,6 +429,7 @@ document.querySelectorAll('.start-btn').forEach(btn => {
     });
 });
 
+// Animate the notification icon on click
 document.querySelectorAll('.notification-icon').forEach(icon => {
     const img = icon.querySelector('img');
     if (!img) return;

@@ -141,6 +141,17 @@
     padding: 4px 0;
 }
 
+@keyframes search-bounce {
+    0%   { transform: scale(1) rotate(0deg);}
+    28%  { transform: scale(1.13, 0.93) rotate(-7deg);}
+    60%  { transform: scale(0.95, 1.06) rotate(5deg);}
+    100% { transform: scale(1) rotate(0deg);}
+}
+
+.search-bar:focus-within .search-icon {
+    animation: search-bounce 0.33s cubic-bezier(.4,1.7,.6,.97);
+}
+
 #taskbar-apps {
     display: flex;
     align-items: center;
