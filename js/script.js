@@ -359,18 +359,6 @@ rows.forEach((row) => {
     rowIndex++;
 });
 
-const allIcons = Array.from(document.querySelectorAll('.desktop-icon'));
-allIcons.forEach((icon, i) => {
-    icon.style.animationDelay = (i * 0.07) + 's';
-    icon.style.opacity = '0';
-    icon.style.transform = 'scale(0.6)';
-    void icon.offsetWidth;
-    icon.classList.remove('desktop-icon-animated');
-    setTimeout(() => {
-        icon.classList.add('desktop-icon-animated');
-    }, 10);
-});
-
 
 // --------------------------------------------------------
 // Taskbar informations
@@ -562,31 +550,153 @@ function initHrefApps() {
 
 
 // --------------------------------------------------------
+// Preload images
+// --------------------------------------------------------
+
+
+function preloadImages(onComplete) {
+    const images = [
+        // Gallery
+        "assets/gallery/42lyon.jpg",
+        "assets/gallery/home.jpg",
+        "assets/gallery/klbarmes.jpg",
+        "assets/gallery/leon1.jpg",
+        "assets/gallery/lyon.jpg",
+        "assets/gallery/moto_field.jpg",
+        "assets/gallery/moto_helmet.jpg",
+        "assets/gallery/moto_ktm.jpg",
+        "assets/gallery/slovenie.jpg",
+        "assets/gallery/suisse.jpg",
+        "assets/gallery/venise.jpg",
+
+        // Icons
+        "assets/icons/aboutme.png",
+        "assets/icons/contact.png",
+        "assets/icons/credits.png",
+        "assets/icons/default.png",
+        "assets/icons/gallery.png",
+        "assets/icons/github.png",
+        "assets/icons/info.png",
+        "assets/icons/journey.png",
+        "assets/icons/kofi.png",
+        "assets/icons/left.png",
+        "assets/icons/linkedin.png",
+        "assets/icons/motivation.png",
+        "assets/icons/notification.png",
+        "assets/icons/os.png",
+        "assets/icons/proton.png",
+        "assets/icons/right.png",
+        "assets/icons/search.png",
+        "assets/icons/shortcut.png",
+        "assets/icons/terminal.png",
+        "assets/icons/warning.png",
+        "assets/icons/weather.png",
+        "assets/icons/web.png",
+        "assets/icons/welcome.png",
+
+        // Wallpapers
+        "assets/wallpapers/1.jpg",
+        "assets/wallpapers/2.jpg",
+        "assets/wallpapers/3.jpg",
+        "assets/wallpapers/4.jpg",
+    ];
+    
+    let loaded = 0;
+    if (images.length === 0) {
+        onComplete();
+        return;
+    }
+
+    images.forEach(src => {
+        const img = new Image();
+        img.onload = img.onerror = () => {
+            loaded++;
+            if (loaded === images.length) onComplete();
+        };
+        img.src = src;
+    });
+}
+
+
+// --------------------------------------------------------
 // DOMContentLoaded
 // --------------------------------------------------------
 
 
 document.addEventListener('DOMContentLoaded', () => {
-    desktop.addEventListener('contextmenu', (e) => {
-        e.preventDefault();
+    preloadImages(() => {
+        // Hide the loading overlay
+        const overlay = document.getElementById('loading-overlay');
+        overlay.classList.add('fade-out');
+        setTimeout(() => {
+            overlay.style.display = 'none';
+
+            // Wallpaper
+            const wallpaper = document.querySelector('.wallpaper');
+            if (wallpaper) {
+                wallpaper.classList.remove('animated');
+                void wallpaper.offsetWidth;
+                wallpaper.classList.add('animated');
+            }
+
+            // Taskbar
+            const taskbar = document.getElementById('taskbar');
+            if (taskbar) {
+                taskbar.classList.remove('animated');
+                void taskbar.offsetWidth;
+                taskbar.classList.add('animated');
+            }
+
+            // Desktop icons
+            const allIcons = Array.from(document.querySelectorAll('.desktop-icon'));
+            allIcons.forEach((icon, i) => {
+                icon.classList.remove('animated');
+                void icon.offsetWidth;
+                setTimeout(() => {
+                    icon.classList.add('animated');
+                }, i * 50);
+            });
+
+            // Taskbar elements
+            const taskbarGroups = [
+                ...document.querySelectorAll('.taskbar-left > *'),
+                ...document.querySelectorAll('.taskbar-center > *'),
+                ...document.querySelectorAll('.taskbar-right > *')
+            ];
+            taskbarGroups.forEach((el, i) => {
+                el.classList.remove('animated');
+                void el.offsetWidth;
+                setTimeout(() => {
+                    el.classList.add('animated');
+                }, i * 80);
+            });
+
+        }, 500);
+
+        // Disable the default context menu
+        desktop.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+        });
+
+        // Initialize the taskbar
+        setInterval(updateTaskbarInfo, 5000);
+        updateTaskbarInfo();
+
+        // Initialize the desktop icons & notifications
+        document.querySelectorAll('.window').forEach(win => initWindow(win));
+        initHrefApps();
+        initNotifications();
+
+        // Clock
+        updateClock();
+        setInterval(updateClock, 1000);
+        
+        // Welcome notifications
+        setTimeout(() => {
+            pushNotification("Welcome on LéonOS 👋", "Léon", "welcome");
+        }, 2000);
+        setTimeout(() => {
+            pushNotification("Have fun exploring the system and its features! 👍", "Léon", "welcome");
+        }, 4000);
     });
-
-    setInterval(updateTaskbarInfo, 5000);
-    updateTaskbarInfo();
-
-    document.querySelectorAll('.window').forEach(win => initWindow(win));
-    initHrefApps();
-    initNotifications();
-
-    // Clock
-    updateClock();
-    setInterval(updateClock, 1000);
-    
-    // Welcome notifications
-    setTimeout(() => {
-        pushNotification("Welcome on LéonOS 👋", "Léon", "welcome");
-    }, 2000);
-    setTimeout(() => {
-        pushNotification("Have fun exploring the system and its features! 👍", "Léon", "welcome");
-    }, 4000);
 });

@@ -5,9 +5,12 @@
     width: 100vw;
     height: 100vh;
     transform: scale(1.2);
-    animation: wallpaper-zoom-wave 1s ease-in-out forwards;
     transition: opacity 0.5s;
     overflow: hidden;
+}
+
+.wallpaper.animated {
+    animation: wallpaper-zoom-wave 1s ease-in-out forwards;
 }
 
 @keyframes wallpaper-zoom-wave {
@@ -59,12 +62,11 @@
     text-align: center;
     cursor: pointer;
     user-select: none;
-    animation: desktop-icon-zoom-in 0.38s cubic-bezier(.4,1.7,.6,.97) forwards;
-    opacity: 0;
     transform: scale(0.6);
+    opacity: 0;
 }
 
-.desktop-icon.desktop-icon-animated {
+.desktop-icon.animated {
     opacity: 1;
     transform: scale(1);
     animation: desktop-icon-zoom-in 0.38s cubic-bezier(.4,1.7,.6,.97) forwards;

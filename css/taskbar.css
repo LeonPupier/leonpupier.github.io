@@ -12,9 +12,12 @@
     z-index: 100;
     padding: 0 8px;
     backdrop-filter: blur(8px);
-    animation: taskbar-bar-slide-up 0.38s ease-out forwards;
     transform: translateY(100%);
     opacity: 0;
+}
+
+#taskbar.animated {
+    animation: taskbar-bar-slide-up 0.38s ease-out forwards;
 }
 
 @keyframes taskbar-bar-slide-up {
@@ -83,7 +86,6 @@
 .taskbar-left > * {
     opacity: 0;
     transform: translateY(40px);
-    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
 }
 .taskbar-left > *:nth-child(1) { animation-delay: 0.1s; }
 .taskbar-left > *:nth-child(2) { animation-delay: 0.2s; }
@@ -91,7 +93,6 @@
 .taskbar-center > * {
     opacity: 0;
     transform: translateY(40px);
-    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
 }
 .taskbar-center > *:nth-child(1) { animation-delay: 0.3s; }
 .taskbar-center > *:nth-child(2) { animation-delay: 0.45s; }
@@ -99,9 +100,14 @@
 .taskbar-right > * {
     opacity: 0;
     transform: translateY(40px);
-    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
 }
 .taskbar-right > *:nth-child(1) { animation-delay: 0.6s; }
+
+.taskbar-left > *.animated,
+.taskbar-center > *.animated,
+.taskbar-right > *.animated {
+    animation: taskbar-slide-up 0.4s cubic-bezier(.4,1.7,.6,.97) forwards;
+}
 
 @keyframes taskbar-slide-up {
     to {
