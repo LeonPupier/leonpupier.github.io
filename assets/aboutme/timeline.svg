@@ -1,0 +1,10 @@
+<svg width="32" height="2000" viewBox="0 0 32 2000" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="grad" x1="16" y1="0" x2="16" y2="2000" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0078d4" stop-opacity="1"/>
+      <stop offset="1" stop-color="#00cfff" stop-opacity="0.05"/>
+    </linearGradient>
+  </defs>
+  <path d="M16 0 Q28 60 16 120 Q4 180 16 240 Q28 300 16 360 Q4 420 16 480 Q28 540 16 600 Q4 660 16 720 Q28 780 16 840 Q4 900 16 1000 Q28 1100 16 1200 Q4 1300 16 1400 Q28 1500 16 1600 Q4 1700 16 1800 Q28 1900 16 2000"
+        stroke="url(#grad)" stroke-width="4" stroke-dasharray="12,16" stroke-linecap="round" fill="none"/>
+</svg>

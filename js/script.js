@@ -2,6 +2,7 @@ import { addTaskbarAppIcon, removeTaskbarAppIcon } from './taskbar.js';
 import { initWindow, bringWindowToFront } from './windows.js';
 import { initNotifications, pushNotification } from './notifications.js';
 
+import { initAboutMe } from './aboutme.js';
 import { initGallery } from './gallery.js';
 
 
@@ -33,11 +34,13 @@ window.openWindow = function(id) {
                 win.dataset.loaded = "1";
                 initWindow(win);
 
+                if (id === 'aboutme') initAboutMe();
                 if (id === "gallery") initGallery();
 
                 setTimeout(() => centerWindow(win), 0);
             });
     } else {
+        if (id === 'aboutme') initAboutMe();
         if (id === "gallery") initGallery();
         setTimeout(() => centerWindow(win), 0);
     }
@@ -556,6 +559,9 @@ function initHrefApps() {
 
 function preloadImages(onComplete) {
     const images = [
+        // About me
+        "assets/aboutme/timeline.svg",
+
         // Gallery
         "assets/gallery/42lyon.jpg",
         "assets/gallery/home.jpg",
@@ -694,9 +700,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Welcome notifications
         setTimeout(() => {
             pushNotification("Welcome on LéonOS 👋", "Léon", "welcome");
-        }, 2000);
+        }, 3000);
         setTimeout(() => {
             pushNotification("Have fun exploring the system and its features! 👍", "Léon", "welcome");
-        }, 4000);
+        }, 5000);
     });
 });

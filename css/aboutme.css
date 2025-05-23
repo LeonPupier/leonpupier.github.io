@@ -1,0 +1,169 @@
+#aboutme-window {
+    width: 900px;
+    height: 700px;
+    min-width: 800px;
+    min-height: 700px;
+}
+
+.aboutme-content {
+    padding: 16px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: auto;
+    position: relative;
+    --aboutme-bg: linear-gradient(120deg, #e3f0ff 60%, #b6d0f7 100%);
+    background: var(--aboutme-bg);
+    transition: background 0.8s cubic-bezier(.4,1.7,.6,.97);
+}
+
+.aboutme-scroll-story {
+    position: relative;
+    max-width: 900px;
+    margin: 0 auto;
+    overflow: auto;
+}
+
+.aboutme-timeline-img {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 32px;
+    height: 100%;
+    transform: translateX(-50%);
+    z-index: 0;
+    pointer-events: none;
+    user-select: none;
+}
+
+.aboutme-step {
+    position: relative;
+    width: 100%;
+    min-height: 160px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 50px;
+    opacity: 0;
+    transform: translateY(40px) scale(0.98);
+    transition: opacity 0.6s cubic-bezier(.4,1.7,.6,.97), transform 0.6s cubic-bezier(.4,1.7,.6,.97);
+    will-change: opacity, transform;
+    z-index: 1;
+}
+
+.aboutme-step.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.aboutme-step-content {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 16px;
+    box-shadow: 0 2px 16px #0078d411;
+    margin-top: 70px;
+    width: 95%;
+    overflow: hidden;
+    position: relative;
+}
+
+.aboutme-step-content:last-child {
+    margin-bottom: 40px;
+}
+
+.aboutme-step-info {
+    flex: 1 1 0;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    z-index: 2;
+}
+
+.emoji-wave, .emoji-fly, .emoji-shot {
+    position: absolute;
+    top: 40px;
+    right: 50px;
+    font-size: 7rem;
+    pointer-events: none;
+    transform-origin: 70% 70%;
+    z-index: 2;
+}
+
+.emoji-wave {
+    animation: wave-hand 3s infinite;
+}
+
+.emoji-fly {
+    animation: wave-fly 3s infinite;
+}
+
+.emoji-shot {
+    animation: wave-shot 3s infinite;
+}
+
+@keyframes wave-hand {
+    0% { transform: rotate(0deg); }
+    10% { transform: rotate(18deg); }
+    20% { transform: rotate(-12deg); }
+    30% { transform: rotate(18deg); }
+    40% { transform: rotate(-8deg); }
+    50% { transform: rotate(12deg); }
+    60% { transform: rotate(0deg); }
+    100% { transform: rotate(0deg); }
+}
+
+@keyframes wave-fly {
+    0%   { transform: translateY(0); }
+    50%  { transform: translateY(-20px); }
+    100% { transform: translateY(0); }
+}
+
+@keyframes wave-shot {
+    0%   { transform: scale(1); }
+    50%  { transform: scale(0.8); }
+    100% { transform: scale(1); }
+}
+
+.aboutme-step-content:hover {
+    box-shadow: 0 8px 32px #0078d433;
+    transform: scale(1.025);
+    transition: box-shadow 0.3s, transform 0.3s;
+}
+
+/* Wallpaper sections */
+
+.aboutme-step-img {
+    flex: 1 1 0;
+    min-width: 0;
+    background: url('../assets/gallery/box1.jpg') center/cover no-repeat;
+    position: relative;
+    mask-image: linear-gradient(to right, transparent 0%, black 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, black 100%);
+}
+
+.aboutme-step.theme-intro .aboutme-step-img { background-image: url('../assets/gallery/lyon.jpg'); }
+.theme-intro .aboutme-step-content { border-left: 6px solid #0078d4; }
+.theme-intro .aboutme-step-content:hover { box-shadow: 0 8px 32px #0078d433; }
+.theme-intro .aboutme-step-content h2 { color: #0078d4; }
+
+.aboutme-step.theme-passion .aboutme-step-img { background-image: url('../assets/aboutme/fireworks.jpg'); }
+.theme-passion .aboutme-step-content { border-left: 6px solid #ff0078; }
+.theme-passion .aboutme-step-content:hover { box-shadow: 0 8px 32px #ff007833; }
+.theme-passion .aboutme-step-content h2 { color: #ff0078; }
+
+.aboutme-step.theme-hobbies .aboutme-step-img { background-image: url('../assets/aboutme/nature.jpg'); }
+.theme-hobbies .aboutme-step-content { border-left: 6px solid #167225; }
+.theme-hobbies .aboutme-step-content:hover { box-shadow: 0 8px 32px #16722533; }
+.theme-hobbies .aboutme-step-content h2 { color: #167225; }
+
+.aboutme-content.theme-intro {
+    --aboutme-bg: linear-gradient(120deg, #e3f0ff 60%, #b6d0f7 100%);
+}
+.aboutme-content.theme-passion {
+    --aboutme-bg: linear-gradient(120deg, #fff0f7 60%, #ffe3f0 100%);
+}
+.aboutme-content.theme-hobbies {
+    --aboutme-bg: linear-gradient(120deg, #e8ffe3 60%, #d0f7b6 100%);
+}

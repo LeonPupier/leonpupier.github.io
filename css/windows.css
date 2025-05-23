@@ -67,6 +67,7 @@
 .window-content {
     padding: 20px;
     color: #222;
+    overflow-y: auto;
 }
 
 .resize-handle {
