@@ -378,7 +378,7 @@ const infoList = [
     { title: "Shortcut", icon: "shortcut", text: "You can drag icons to rearrange your desktop." },
     { title: "Motivation", icon: "motivation", text: "Stay curious. Keep exploring!" },
     { title: "Shortcut", icon: "shortcut", text: "Press Enter to open selected icons." },
-    { title: "Contact", icon: "contact", text: "Looking for a job? Let's connect!" },
+    { title: "Contact", icon: "contact", text: "Looking for a developer? Let's connect!" },
     { title: "Shortcut", icon: "shortcut", text: "You can resize windows by dragging the corners." },
 ];
 
