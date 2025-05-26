@@ -39,6 +39,8 @@ export function initTerminal() {
 
     // List of supported commands
     const commands = {
+        help: help_command,
+
         cls: cls_command,
         clear: cls_command,
 
@@ -48,10 +50,21 @@ export function initTerminal() {
         dir: ls_command,
 
         cat: cat_command,
-        
+
         exit: exit_command,
         quit: exit_command
     };
+
+    // HELP
+    function help_command() {
+        printLine("Available commands:");
+        printLine("- help: Display this help message");
+        printLine("- cls, clear: Clear the terminal");
+        printLine("- cd <folder>: Change directory");
+        printLine("- ls, dir: List files and directories");
+        printLine("- cat <file>: Display the content of a file");
+        printLine("- exit, quit: Exit the terminal");
+    }
 
     // CLS
     function cls_command() {
@@ -60,7 +73,7 @@ export function initTerminal() {
 
     // CD
     function cd_command(args) {
-        if (!args) return printLine("Usage: cd <dossier>");
+        if (!args) return printLine("Usage: cd <folder>");
         if (args === "~") {
             currentDir = ["~"];
             return;
@@ -94,7 +107,7 @@ export function initTerminal() {
 
     // CAT
     function cat_command(args) {
-        if (!args) return printLine("Usage: cat <fichier>");
+        if (!args) return printLine("Usage: cat <file>");
         const path = args.split("/").filter(Boolean);
         let node = getDirNode(currentDir);
 
@@ -102,7 +115,7 @@ export function initTerminal() {
             if (node && node.type === "dir" && node.children[path[i]]) {
                 node = node.children[path[i]];
             } else {
-                printLine(`cat: ${args}: Aucun fichier ou dossier de ce nom`);
+                printLine(`cat: ${args}: No file or folder with this name`);
                 return;
             }
         }
@@ -111,7 +124,7 @@ export function initTerminal() {
         if (node && node.type === "dir" && node.children[fileName] && node.children[fileName].type === "file") {
             printLine(node.children[fileName].content || "");
         } else {
-            printLine(`cat: ${args}: Aucun fichier de ce nom`);
+            printLine(`cat: ${args}: No file with this name`);
         }
     }
 
@@ -183,5 +196,7 @@ export function initTerminal() {
     // Initialisation
     terminalBody.innerHTML = '';
     printLine("Welcome on LéonOS Terminal !");
+    printLine("Type 'help' for a list of commands.");
+    printLine();
     newPrompt();
 }
