@@ -4,7 +4,9 @@
     left: 100px;
     border-radius: 12px;
     border: 1px solid #e0e0e0;
-    background: rgba(255,255,255,0.95);
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     box-shadow: 0 8px 32px rgba(0,0,0,0.18);
     z-index: 10;
     overflow: hidden;
@@ -57,17 +59,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    height: 4%;
     padding: 10px 16px;
     font-weight: 500;
     color: white;
-    background: linear-gradient(90deg, #0078d4 0%, #005fa3 100%);
+    background: linear-gradient(90deg, #005fa3 0%, #0078d4 100%);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     z-index: 20;
-}
-
-.window-content {
-    padding: 20px;
-    color: #222;
-    overflow-y: auto;
 }
 
 .resize-handle {
