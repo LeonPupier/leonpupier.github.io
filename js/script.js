@@ -4,6 +4,7 @@ import { initNotifications, pushNotification } from './notifications.js';
 
 import { initAboutMe } from './aboutme.js';
 import { initGallery } from './gallery.js';
+import { initTerminal } from './terminal.js';
 
 
 // --------------------------------------------------------
@@ -36,12 +37,15 @@ window.openWindow = function(id) {
 
                 if (id === 'aboutme') initAboutMe();
                 if (id === "gallery") initGallery();
+                if (id === 'terminal') initTerminal();
 
                 setTimeout(() => centerWindow(win), 0);
             });
     } else {
         if (id === 'aboutme') initAboutMe();
         if (id === "gallery") initGallery();
+        if (id === 'terminal') initTerminal();
+
         setTimeout(() => centerWindow(win), 0);
     }
     win.classList.remove("hidden");

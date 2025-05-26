@@ -1,0 +1,74 @@
+#terminal-window {
+    width: 800px;
+    height: 700px;
+    min-width: 800px;
+    min-height: 700px;
+}
+
+.terminal-content {
+    position: relative;
+    box-sizing: border-box;
+    color: #e6e6e6;
+    font-family: 'Cascadia Mono', 'Fira Mono', 'Consolas', 'Menlo', 'monospace';
+    font-size: 1.08em;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.terminal-header {
+    display: flex;
+    flex-direction: column;
+    padding: 18px 24px 10px 24px;
+    background: linear-gradient(90deg, #2d323b 0%, #23272e 100%);
+    border-radius: 0 0 0 0;
+    border-bottom: 1px solid #222;
+    gap: 2px;
+}
+
+.terminal-title {
+    font-weight: 700;
+    font-size: 1.1em;
+    letter-spacing: 0.04em;
+    color: #7ecfff;
+    text-shadow: 0 2px 8px #0078d455;
+}
+
+.terminal-credits {
+    font-size: 0.92em;
+    color: #b6d0f7cc;
+    opacity: 0.7;
+    font-weight: 400;
+}
+
+.terminal-body {
+    position: relative;
+    overflow: auto;
+    padding: 18px 24px 18px 24px;
+    height: calc(80%);
+}
+
+.terminal-line {
+    display: flex;
+    align-items: center;
+    min-height: 1.5em;
+    font-size: 1em;
+    letter-spacing: 0.01em;
+}
+
+.terminal-prompt {
+    color: #7ecfff;
+    font-weight: 600;
+    margin-right: 8px;
+}
+
+.terminal-input {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    outline: none;
+    width: 100%;
+    max-width: 600px;
+    caret-color: #7ecfff;
+}
