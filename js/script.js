@@ -353,6 +353,11 @@ window.addEventListener('mouseup', () => {
         dragSelection = [];
         dragSelectionStart = [];
     }
+
+    // Check the easter egg condition
+    if (areMainAppsInSquare()) {
+        easter_egg();
+    }
 });
 
 const rows = document.querySelectorAll('.desktop-row');
@@ -675,6 +680,115 @@ document.addEventListener('click', (e) => {
 
 // Position the search box when focused
 searchInput.addEventListener('focus', positionSearchBox);
+
+
+// --------------------------------------------------------
+// Check T J Am G
+// --------------------------------------------------------
+
+
+function areMainAppsInSquare() {
+    // Gets the desktop icons for the main apps
+    const terminal = document.querySelector('.desktop-icon[data-app="terminal"]');
+    const journey = document.querySelector('.desktop-icon[data-app="journey"]');
+    const aboutme = document.querySelector('.desktop-icon[data-app="aboutme"]');
+    const gallery = document.querySelector('.desktop-icon[data-app="gallery"]');
+    if (!terminal || !journey || !aboutme || !gallery) return false;
+
+    // Get the positions of the icons
+    const t = { left: parseInt(terminal.style.left, 10), top: parseInt(terminal.style.top, 10) };
+    const j = { left: parseInt(journey.style.left, 10), top: parseInt(journey.style.top, 10) };
+    const am = { left: parseInt(aboutme.style.left, 10), top: parseInt(aboutme.style.top, 10) };
+    const g = { left: parseInt(gallery.style.left, 10), top: parseInt(gallery.style.top, 10) };
+
+    // Find min/max for left and top
+    const minLeft = Math.min(t.left, j.left, am.left, g.left);
+    const maxLeft = Math.max(t.left, j.left, am.left, g.left);
+    const minTop = Math.min(t.top, j.top, am.top, g.top);
+    const maxTop = Math.max(t.top, j.top, am.top, g.top);
+
+    // Grid tolerance
+    const tol = Math.max(GRID_WIDTH, GRID_HEIGHT, GRID_GAP) / 2;
+
+    // Check each app is at the correct corner
+    const isTerminalTopLeft    = Math.abs(t.left - minLeft) < tol && Math.abs(t.top - minTop) < tol;
+    const isJourneyTopRight    = Math.abs(j.left - maxLeft) < tol && Math.abs(j.top - minTop) < tol;
+    const isAboutmeBottomLeft  = Math.abs(am.left - minLeft) < tol && Math.abs(am.top - maxTop) < tol;
+    const isGalleryBottomRight = Math.abs(g.left - maxLeft) < tol && Math.abs(g.top - maxTop) < tol;
+
+    // Check it's the valid square formation
+    const dx = maxLeft - minLeft;
+    const dy = maxTop - minTop;
+    const isSquare = Math.abs(dx - dy) < tol && dx > 0 && dy > 0;
+
+    return isTerminalTopLeft && isJourneyTopRight && isAboutmeBottomLeft && isGalleryBottomRight && isSquare;
+}
+
+
+// --------------------------------------------------------
+// Easter egg
+// --------------------------------------------------------
+
+
+let easter_egg_found = false;
+
+function launchConfetti() {
+    const colors = ['#ff595e', '#ffca3a', '#8ac926', '#1982c4', '#6a4c93', '#fff', '#f72585', '#b5179e', '#7209b7', '#3a86ff'];
+    const confettiCount = 220;
+    const confettiContainer = document.createElement('div');
+    confettiContainer.style.position = 'fixed';
+    confettiContainer.style.left = 0;
+    confettiContainer.style.top = 0;
+    confettiContainer.style.width = '100vw';
+    confettiContainer.style.height = '100vh';
+    confettiContainer.style.pointerEvents = 'none';
+    confettiContainer.style.zIndex = 99999;
+
+    for (let i = 0; i < confettiCount; i++) {
+        const confetti = document.createElement('div');
+        const size = Math.random() * 8 + 8;
+        confetti.style.position = 'absolute';
+        confetti.style.width = `${size}px`;
+        confetti.style.height = `${size * 0.4}px`;
+        confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.left = `${Math.random() * 100}vw`;
+        confetti.style.top = `-${size * 2}px`;
+        confetti.style.opacity = 0.85;
+        confetti.style.borderRadius = `${Math.random() * 50}%`;
+        confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        confetti.style.transition = 'transform 0.3s';
+
+        // Animation
+        const fall = confetti.animate([
+            { transform: `translateY(0) rotate(${Math.random() * 360}deg)` },
+            { transform: `translateY(${window.innerHeight + 60}px) rotate(${Math.random() * 360}deg)` }
+        ], {
+            duration: 3200 + Math.random() * 1800,
+            delay: Math.random() * 600,
+            easing: 'cubic-bezier(.23,1.02,.67,.98)',
+            fill: 'forwards'
+        });
+
+        fall.onfinish = () => confetti.remove();
+
+        confettiContainer.appendChild(confetti);
+    }
+
+    document.body.appendChild(confettiContainer);
+
+    // Remove the container after animation
+    setTimeout(() => {
+        confettiContainer.remove();
+    }, 5600);
+}
+
+
+function easter_egg() {
+    if (easter_egg_found) return;
+    launchConfetti();
+    pushNotification("Victory! It's useless, but you'll have discovered a few LeonOS functions.", "Easter egg", "party");
+    easter_egg_found = true;
+}
 
 
 // --------------------------------------------------------
