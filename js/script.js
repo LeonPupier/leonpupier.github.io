@@ -833,6 +833,7 @@ function preloadImages(onComplete) {
         "assets/icons/github.png",
         "assets/icons/info.png",
         "assets/icons/journey.png",
+        "assets/icons/klbarmes.png",
         "assets/icons/kofi.png",
         "assets/icons/left.png",
         "assets/icons/linkedin.png",
