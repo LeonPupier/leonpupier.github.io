@@ -877,6 +877,17 @@ function preloadImages(onComplete) {
 // --------------------------------------------------------
 
 
+function checkScreenSize() {
+    const overlay = document.getElementById('screen-too-small-overlay');
+    if (window.innerWidth < 1100 || window.innerHeight < 700) {
+        overlay.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+    } else {
+        overlay.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     preloadImages(() => {
         // Hide the loading overlay
@@ -954,3 +965,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 5000);
     });
 });
+
+window.addEventListener('resize', checkScreenSize);
+window.addEventListener('DOMContentLoaded', checkScreenSize);

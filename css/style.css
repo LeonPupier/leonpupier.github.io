@@ -28,3 +28,26 @@ img {
 .window-content::-webkit-scrollbar {
     display: none;
 }
+
+#screen-too-small-overlay {
+    position: fixed;
+    z-index: 99999;
+    inset: 0;
+    background: rgba(16, 24, 40, 1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.screen-too-small-message {
+    color: #fff;
+    font-size: 1.25em;
+    text-align: center;
+    background: rgba(30, 40, 60, 0.92);
+    border-radius: 18px;
+    padding: 38px 32px 32px 32px;
+    box-shadow: 0 8px 32px #0078d455;
+    max-width: 90vw;
+}
