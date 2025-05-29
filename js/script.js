@@ -557,6 +557,127 @@ function initHrefApps() {
 
 
 // --------------------------------------------------------
+// Taskbar handler
+// --------------------------------------------------------
+
+
+const SEARCH_DATA = [
+    { type: 'app', id: 'aboutme', label: 'About me', icon: 'assets/icons/aboutme.png' },
+    { type: 'app', id: 'journey', label: 'Journey', icon: 'assets/icons/journey.png' },
+    { type: 'app', id: 'gallery', label: 'Gallery', icon: 'assets/icons/gallery.png' },
+    { type: 'app', id: 'terminal', label: 'Terminal', icon: 'assets/icons/terminal.png' },
+
+    { type: 'shortcut', id: 'github', url: 'https://github.com/leonpupier', label: 'Github', icon: 'assets/icons/github.png' },
+    { type: 'shortcut', id: 'linkedin', url: 'https://www.linkedin.com/in/l%C3%A9on-pupier0420/', label: 'Linkedin', icon: 'assets/icons/linkedin.png' },
+    { type: 'shortcut', id: 'email', url: 'mailto:public_contact.l2qt6@slmail.me', label: 'Email', icon: 'assets/icons/proton.png' },
+    { type: 'shortcut', id: 'kofi', url: 'https://ko-fi.com/leonpupier', label: 'Ko-Fi', icon: 'assets/icons/kofi.png' },
+];
+
+const searchInput = document.querySelector('.search-bar input');
+const searchResultsBox = document.getElementById('search-results-box');
+const left = searchResultsBox.querySelector('.search-results-left');
+const right = searchResultsBox.querySelector('.search-results-right');
+
+// Show search results box
+searchInput.addEventListener('input', function() {
+    const value = searchInput.value.trim().toLowerCase();
+
+    // Search results
+    const results = SEARCH_DATA.filter(item => item.label.toLowerCase().includes(value));
+    if (results.length) {
+
+        left.innerHTML = results.map(item =>
+            `<div class="search-result-item" data-id="${item.id}">
+                <img src="${item.icon}" class="search-result-icon" alt="" />
+                <span>${item.label}</span>
+            </div>`
+        ).join('');
+
+        const codeTips = [
+            "You can drag and drop desktop icons to rearrange them.",
+            "Double-click an icon to open its app.",
+            "Press Enter to open all selected desktop icons.",
+            "You can resize windows by dragging their borders and corners.",
+            "Right-click on the desktop for more options.",
+            "You can change the wallpaper from the desktop context menu.",
+            "Use the search bar to quickly find apps and shortcuts.",
+            "Minimize a window using the taskbar or the window controls.",
+            "Explore the terminal for commands!"
+        ];
+
+        if (results.length === 1) {
+            const item = results[0];
+            right.innerHTML = `<div class="search-result-info">
+                <b>${item.label}</b><br>
+                ${item.type === 'app' ? "LéonOS application" : "External link"}<br>
+                ${item.type === 'shortcut' ? `<a href="${item.url}" target="_blank">${item.url}</a>` : ""}
+            </div>`;
+        } else {
+            right.innerHTML = `<div class="search-result-info">
+                Click an app or shortcut to open it.<br>
+                <span style="opacity:0.7; font-size:0.97em; display:block; margin-top:10px;">
+                    Tip:<br>
+                    ${codeTips[Math.floor(Math.random() * codeTips.length)]}
+                </span>
+            </div>`;
+        }
+        searchResultsBox.style.display = 'block';
+        
+        // Add click handlers to search result items
+        left.querySelectorAll('.search-result-item').forEach(div => {
+            div.onclick = (e) => {
+                const item = SEARCH_DATA.find(i => i.id === div.dataset.id);
+                
+                if (item && item.type === 'app') {
+                    openWindow(item.id);
+                } else if (item && item.type === 'shortcut') {
+                    window.open(item.url, '_blank', 'noopener');
+                }
+                searchResultsBox.style.display = 'none';
+                searchInput.value = '';
+                e.stopPropagation();
+
+                return false;
+            };
+        });
+    } else {
+        left.innerHTML = `<div class="search-result-empty">No result</div>`;
+        right.innerHTML = `<div class="search-result-info">Try with another search...</div>`;
+        searchResultsBox.style.display = 'block';
+    }
+
+    // 424ever easter egg
+    if (value === '424ever') {
+        right.innerHTML = `
+            <div class="search-result-info">
+            <h3>And now ..? 👀</h3>
+                <pre>T  J</pre>
+                <pre>Am G</pre>
+            </div>
+        `;
+    }
+});
+
+// Position the search results box above the search input
+function positionSearchBox() {
+    searchResultsBox.classList.add('visible');
+    searchInput.dispatchEvent(new Event('input'));
+}
+
+// Hide the search results box when clicking outside
+document.addEventListener('click', (e) => {
+    if (!searchResultsBox.contains(e.target) && !searchInput.contains(e.target)) {
+        searchResultsBox.style.display = 'none';
+        searchInput.value = '';
+        searchResultsBox.classList.remove('visible');
+    }
+});
+
+// Position the search box when focused
+searchInput.addEventListener('focus', positionSearchBox);
+
+
+// --------------------------------------------------------
 // Preload images
 // --------------------------------------------------------
 
