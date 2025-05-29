@@ -846,7 +846,6 @@ function preloadImages(onComplete) {
         "assets/icons/terminal.png",
         "assets/icons/warning.png",
         "assets/icons/weather.png",
-        "assets/icons/web.png",
         "assets/icons/welcome.png",
 
         // Wallpapers
