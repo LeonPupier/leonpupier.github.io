@@ -786,7 +786,7 @@ function launchConfetti() {
 function easter_egg() {
     if (easter_egg_found) return;
     launchConfetti();
-    pushNotification("Victory! It's useless, but you'll have discovered a few LeonOS functions.", "Easter egg", "party");
+    pushNotification("Victory! It's useless, but you'll have discovered a few LéonOS features.", "Easter egg", "party");
     easter_egg_found = true;
 }
 
@@ -800,6 +800,16 @@ function preloadImages(onComplete) {
     const images = [
         // About me
         "assets/aboutme/timeline.svg",
+
+        // Journey
+        "assets/journey/42.svg",
+        "assets/journey/audacity.svg",
+        "assets/journey/blender.svg",
+        "assets/journey/flstudio.png",
+        "assets/journey/godot.svg",
+        "assets/journey/lmms.svg",
+        "assets/journey/ue.svg",
+        "assets/journey/unity.svg",
 
         // Gallery
         "assets/gallery/42lyon.jpg",

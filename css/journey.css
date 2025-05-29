@@ -1,0 +1,195 @@
+#journey-window {
+    width: 700px;
+    height: 700px;
+    min-width: 700px;
+    min-height: 700px;
+}
+
+.journey-content {
+    display: flex;
+    position: relative;
+    flex-direction: row;
+    height: 100%;
+    padding: 16px;
+    min-height: 600px;
+    font-family: 'Segoe UI', 'Arial', sans-serif;
+    box-sizing: border-box;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.journey-content {
+    padding: 40px;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.journey-timeline {
+    position: relative;
+    width: 100%;
+    padding-left: 20px;
+    height: fit-content;
+}
+
+.journey-timeline::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #4f46e5 0%, transparent 100%);
+    border-radius: 2px;
+    z-index: 0;
+}
+
+.journey-timeline-item {
+    position: relative;
+    margin-bottom: 3rem;
+    padding-left: 1rem;
+    animation: fadeInUp 0.6s ease-out both;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.journey-timeline-point {
+    position: absolute;
+    left: -28px;
+    top: 4px;
+    width: 14px;
+    height: 14px;
+    background: #4f46e5;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 2px #4f46e5;
+}
+
+.journey-timeline-year {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #4f46e5;
+    margin-bottom: 20px;
+}
+
+.journey-timeline-skills {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.journey-skill {
+    background: #f1f5f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s;
+
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.journey-skill:hover {
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    scale: 1.02;
+}
+
+.journey-skill h3 {
+    margin-top: 0;
+    color: #2563eb;
+}
+
+.journey-skill p {
+    margin: 0.25rem 0;
+}
+
+.journey-projects {
+    margin-top: 0.5rem;
+}
+.journey-projects span {
+    font-weight: 600;
+}
+
+.journey-project {
+    display: inline-flex;
+    align-items: center;
+    color: grey;
+    border: 1.5px solid rgb(189, 189, 189);
+    border-radius: 12px;
+    padding: 3px 14px 3px 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1em;
+    box-shadow: 0 2px 8px #2563eb11;
+    transition: all 0.3s;
+    gap: 8px;
+    margin-right: 8px;
+    margin-top: 20px;
+}
+
+.journey-project:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    box-shadow: 0 4px 16px #2563eb22;
+    scale: 1.05;
+}
+
+.journey-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.journey-content::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+.journey-content::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.journey-soft-btn {
+    display: inline-flex;
+    align-items: center;
+    color: grey;
+    border: 1.5px solid rgb(189, 189, 189);
+    border-radius: 12px;
+    padding: 3px 14px 3px 8px;
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1em;
+    box-shadow: 0 2px 8px #2563eb11;
+    transition: all 0.3s;
+    gap: 8px;
+    margin-right: 8px;
+    margin-top: 20px;
+}
+
+.journey-soft-btn:hover {
+    border-color: #2563eb;
+    color: #2563eb;
+    box-shadow: 0 4px 16px #2563eb22;
+    scale: 1.05;
+}
+
+.journey-soft-logo {
+    height: 1.3em;
+    width: auto;
+    margin-right: 6px;
+    vertical-align: middle;
+    display: inline-block;
+}
