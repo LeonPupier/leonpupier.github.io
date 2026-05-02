@@ -1,204 +1,175 @@
-<!DOCTYPE html>
-<html lang="fr">
-    <head>
-        <!-- Meta -->
-        <meta charset="UTF-8">
-        <title>LéonOS</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="LéonOS - A personal portfolio with a desktop-like interface.">
-        <meta name="author" content="Léon Pupier">
-        <meta name="keywords" content="Léon, OS, personal website, portfolio, developer, programmer, software engineer">
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
-        <!-- Open Graph / Facebook -->
-        <meta property="og:type" content="website">
-        <meta property="og:title" content="LéonOS">
-        <meta property="og:description" content="LéonOS - A personal portfolio with a desktop-like interface.">
-        <meta property="og:image" content="https://leonpupier.com/assets/icons/os.png">
-        <meta property="og:url" content="https://leonpupier.com/">
-        <meta property="og:site_name" content="LéonOS">
+  <!-- Primary -->
+  <title>Léon Pupier — Fullstack Software Developer</title>
+  <meta name="description" content="Léon Pupier — French fullstack software developer. Custom web apps, APIs, internal tools, mobile. Open to freelance & contract work." />
+  <meta name="author" content="Léon Pupier" />
+  <meta name="keywords" content="Léon Pupier, Leon Pupier, fullstack developer, software developer, freelance, web apps, APIs, automation, France" />
+  <link rel="canonical" href="https://leonpupier.fr/" />
+  <meta name="theme-color" content="#0a0e0a" />
+  <meta name="color-scheme" content="dark" />
 
-        <!-- Twitter Card -->
-        <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="LéonOS">
-        <meta name="twitter:description" content="LéonOS - A personal portfolio with a desktop-like interface.">
-        <meta name="twitter:image" content="https://leonpupier.com/assets/icons/os.png">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="leonpupier.fr" />
+  <meta property="og:url" content="https://leonpupier.fr/" />
+  <meta property="og:title" content="Léon Pupier — Fullstack Software Developer" />
+  <meta property="og:description" content="Fullstack software developer · custom web apps, APIs, internal tools. Interactive terminal portfolio. Type `help` to explore." />
+  <meta property="og:locale" content="en_US" />
+  <meta property="og:image" content="https://leonpupier.fr/og.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Léon Pupier — terminal portfolio" />
 
-        <!-- Favicon -->
-        <link rel="icon" href="assets/icons/os.png" type="image/png">
-        <link rel="apple-touch-icon" href="assets/icons/os.png" type="image/png">
-        
-        <!-- Google Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Léon Pupier — Fullstack Software Developer" />
+  <meta name="twitter:description" content="Fullstack software developer · interactive terminal portfolio." />
+  <meta name="twitter:image" content="https://leonpupier.fr/og.png" />
 
-        <!-- CSS -->
-        <link rel="stylesheet" href="css/style.css">
-        <link rel="stylesheet" href="css/loading.css">
-        <link rel="stylesheet" href="css/desktop.css">
-        <link rel="stylesheet" href="css/windows.css">
-        <link rel="stylesheet" href="css/taskbar.css">
-        <link rel="stylesheet" href="css/notifications.css">
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Léon Pupier",
+    "url": "https://leonpupier.fr/",
+    "jobTitle": "Software Developer",
+    "description": "Fullstack software developer building custom web apps, APIs, internal tools and mobile apps.",
+    "knowsAbout": ["Python", "FastAPI", "Django", "JavaScript", "C", "C++", "HTML", "CSS", "Docker", "Linux", "MySQL", "Web scraping", "API design", "ERP customization", "DevOps", "Process automation"],
+    "nationality": "French",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Lyon",
+      "addressRegion": "Auvergne-Rhône-Alpes",
+      "addressCountry": "FR"
+    },
+    "alumniOf": {
+      "@type": "EducationalOrganization",
+      "name": "École 42 Lyon"
+    },
+    "worksFor": {
+      "@type": "Organization",
+      "name": "KLB Armes"
+    },
+    "email": "mailto:public_contact.l2qt6@slmail.me",
+    "sameAs": [
+      "https://www.linkedin.com/in/l%C3%A9on-pupier0420/",
+      "https://github.com/LeonPupier"
+    ]
+  }
+  </script>
 
-        <link rel="stylesheet" href="css/aboutme.css">
-        <link rel="stylesheet" href="css/journey.css">
-        <link rel="stylesheet" href="css/gallery.css">
-        <link rel="stylesheet" href="css/terminal.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-        <!-- Google tag (gtag.js) -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-PXB0ZMFKTE"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
+  <link rel="stylesheet" href="styles.css" />
 
-            gtag('config', 'G-PXB0ZMFKTE');
-        </script>
-    </head>
-    <body>
-        <!-- Wallpaper -->
-        <div class="wallpaper">
-            <img src="assets/wallpapers/1.jpg">
-        </div>
-        
-        <!-- Desktop -->
-        <div id="desktop" class="desktop">
-            <div id="desktop-selection" class="desktop-selection" style="display:none;"></div>
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+  <h1 class="visually-hidden">Léon Pupier — Fullstack Software Developer</h1>
 
-            <div class="desktop-row">
-                <div class="desktop-icon" data-app="aboutme">
-                    <img src="assets/icons/aboutme.png" alt="About me">
-                    <span>About me</span>
-                </div>
-                <div class="desktop-icon" data-app="journey">
-                    <img src="assets/icons/journey.png" alt="Journey">
-                    <span>Journey</span>
-                </div>
-                <div class="desktop-icon" data-app="gallery">
-                    <img src="assets/icons/gallery.png" alt="Gallery">
-                    <span>Gallery</span>
-                </div>
-            </div>
+  <noscript>
+    <div style="padding:2rem;color:#9efbb3;background:#0a0e0a;font-family:monospace;">
+      <h2>Léon Pupier — Fullstack Software Developer</h2>
+      <p>This is an interactive terminal portfolio. Please enable JavaScript to use it.</p>
+      <p>Otherwise, reach me on <a href="https://www.linkedin.com/in/l%C3%A9on-pupier0420/">LinkedIn</a> or <a href="https://github.com/LeonPupier">GitHub</a>.</p>
+    </div>
+  </noscript>
 
-            <div class="desktop-row desktop-row-secondary">
-                <div class="desktop-icon" data-app="terminal">
-                    <img src="assets/icons/terminal.png" alt="Terminal">
-                    <span>Terminal</span>
-                </div>
-            </div>
+  <div id="root"></div>
 
-            <div class="desktop-row desktop-row-secondary"></div>
+  <script type="text/babel" src="tweaks-panel.jsx"></script>
+  <script type="text/babel" src="terminal-engine.jsx"></script>
+  <script type="text/babel" src="animated-banner.jsx"></script>
+  <script type="text/babel" src="terminal-output.jsx"></script>
+  <script type="text/babel" src="matrix-rain.jsx"></script>
+  <script type="text/babel" src="snake-game.jsx"></script>
+  <script type="text/babel" src="terminal-app.jsx"></script>
 
-            <div class="desktop-row desktop-row-secondary">
-                <div class="desktop-icon" data-href="https://configurator.klbarmes.com">
-                    <img src="assets/icons/klbarmes.png" alt="KLB Custom">
-                    <span>Custom</span>
-                </div>
-            </div>
+  <script type="text/babel">
+    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+      "scanlines": true,
+      "flicker": true,
+      "sound": true,
+      "burnIn": true,
+      "curvature": true,
+      "theme": "green"
+    }/*EDITMODE-END*/;
 
-            <div class="desktop-row desktop-row-secondary"></div>
+    function App() {
+      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
 
-            <div class="desktop-row desktop-row-secondary">
-                <div class="desktop-icon" data-href="https://github.com/LeonPupier">
-                    <img src="assets/icons/github.png" alt="Github">
-                    <span>Github</span>
-                </div>
-                <div class="desktop-icon" data-href="https://www.linkedin.com/in/l%C3%A9on-pupier0420/">
-                    <img src="assets/icons/linkedin.png" alt="Email">
-                    <span>LinkedIn</span>
-                </div>
-                <div class="desktop-icon" data-href="mailto:public_contact.l2qt6@slmail.me">
-                    <img src="assets/icons/proton.png" alt="Email">
-                    <span>Email</span>
-                </div>
-                <div class="desktop-icon" data-href="https://ko-fi.com/leonpupier">
-                    <img src="assets/icons/kofi.png" alt="Ko-Fi">
-                    <span>Ko-Fi</span>
-                </div>
-            </div>
-        </div>
+      // Listen for `theme <name>` command from terminal
+      React.useEffect(() => {
+        const onSetTheme = (e) => setTweak("theme", e.detail);
+        window.addEventListener("__set_theme", onSetTheme);
+        return () => window.removeEventListener("__set_theme", onSetTheme);
+      }, [setTweak]);
 
-        <!-- Windows -->
-        <div id="aboutme-window" class="window hidden"></div>
-        <div id="journey-window" class="window hidden"></div>
-        <div id="gallery-window" class="window hidden"></div>
-        <div id="terminal-window" class="window hidden"></div>
+      return (
+        <>
+          <Terminal tweaks={tweaks} />
 
-        <!-- Notification Toast -->
-        <div id="notification-toast-container" class="notification-toast-container"></div>
-        <div id="notification-history-panel" class="notification-history-panel">
-            <div class="notification-history-header">
-                Notifications
-                <button id="close-notification-history">✕</button>
-            </div>
-            <div id="notification-history-list" class="notification-history-list"></div>
-        </div>
+          <TweaksPanel title="Tweaks">
+            <TweakSection label="Phosphor">
+              <TweakRadio
+                label="Color"
+                value={tweaks.theme}
+                onChange={v => setTweak("theme", v)}
+                options={[
+                  { value: "green",   label: "green" },
+                  { value: "amber",   label: "amber" },
+                  { value: "white",   label: "white" },
+                ]}
+              />
+            </TweakSection>
 
-        <!-- Taskbar -->
-        <div id="taskbar" class="taskbar">
-            <div class="taskbar-left">
-                <div id="taskbar-info-icon" class="taskbar-info-icon">
-                    <img src="assets/icons/info.png" alt="Info" />
-                </div>
-                <div id="taskbar-info-box" class="taskbar-info-box">
-                    <div class="taskbar-info-title" id="taskbar-info-title">Info</div>
-                    <div class="taskbar-info-text" id="taskbar-info-text">Chargement...</div>
-                </div>
-            </div>
+            <TweakSection label="CRT Effects">
+              <TweakToggle
+                label="Scanlines"
+                value={tweaks.scanlines}
+                onChange={v => setTweak("scanlines", v)}
+              />
+              <TweakToggle
+                label="Flicker"
+                value={tweaks.flicker}
+                onChange={v => setTweak("flicker", v)}
+              />
+              <TweakToggle
+                label="Phosphor burn-in"
+                value={tweaks.burnIn}
+                onChange={v => setTweak("burnIn", v)}
+              />
+              <TweakToggle
+                label="Screen curvature"
+                value={tweaks.curvature}
+                onChange={v => setTweak("curvature", v)}
+              />
+            </TweakSection>
 
-            <div class="taskbar-center">
-                <button class="start-btn taskbar-item">
-                    <img src="assets/icons/os.png" alt="Start menu" />
-                </button>
-                <div class="search-bar taskbar-item">
-                    <img class="search-icon" src="assets/icons/search.png" />
-                    <input type="text" placeholder="Search" />
-                </div>
-                <div id="taskbar-apps"></div>
-            </div>
+            <TweakSection label="Audio">
+              <TweakToggle
+                label="Keyboard sounds"
+                value={tweaks.sound}
+                onChange={v => setTweak("sound", v)}
+              />
+            </TweakSection>
+          </TweaksPanel>
+        </>
+      );
+    }
 
-            <div class="taskbar-right">
-                <div class="notification-icon" id="notification-icon">
-                    <img src="assets/icons/notification.png" alt="Notifications" />
-                    <span id="notification-badge" class="notification-badge" style="display:none;">0</span>
-                </div>
-                <span id="clock"></span>
-            </div>
-        </div>
-        <div id="taskbar-tooltip" class="taskbar-tooltip" style="display:none"></div>
-
-        <!-- Results Box from Taskbar input -->
-        <div id="search-results-box">
-            <div class="search-results-inner">
-                <div class="search-results-left"></div>
-                <div class="search-results-right"></div>
-            </div>
-        </div>
-
-        <!-- Context Menu -->
-        <div id="desktop-context-menu" class="desktop-context-menu" style="display:none;">
-            <div class="context-menu-item" id="change-wallpaper-btn">Change wallpaper</div>
-        </div>
-
-        <!-- Loading Menu -->
-        <div id="loading-overlay">
-            <img src="assets/icons/os.png" alt="Logo OS" class="loading-logo">
-            <div class="loading-row">
-                <span class="loading-text">Loading LéonOS</span>
-                <span class="loader"></span>
-            </div>
-        </div>
-
-        <!-- Screen size warning -->
-        <div id="screen-too-small-overlay" style="display:none;">
-            <div class="screen-too-small-message">
-                <img src="assets/icons/os.png" alt="LéonOS" style="width:64px;margin-bottom:18px;">
-                <div>
-                    LéonOS requires a screen size of at least <b>1100x700px</b>.<br>
-                    Enlarge your window or use a computer to continue.
-                </div>
-            </div>
-        </div>
-
-        <!-- Script -->
-        <script type="module" src="js/script.js"></script>
-    </body>
+    const root = ReactDOM.createRoot(document.getElementById("root"));
+    root.render(<App />);
+  </script>
+</body>
 </html>
