@@ -4,12 +4,20 @@ const { useState, useEffect, useRef, useCallback } = React;
 
 const PROMPT = "guest@leonpupier:~$ ";
 
+// Live date helpers — every UI date is derived from "now" so the boot
+// screen, copyright and ACPI stamps don't go stale.
+const __BOOT_NOW = new Date();
+const __PAD2 = (n) => String(n).padStart(2, "0");
+const BOOT_YEAR = __BOOT_NOW.getFullYear();
+const BOOT_DATE_US = `${__PAD2(__BOOT_NOW.getMonth() + 1)}/${__PAD2(__BOOT_NOW.getDate())}/${BOOT_YEAR}`;
+const BOOT_DATE_COMPACT = `${BOOT_YEAR}${__PAD2(__BOOT_NOW.getMonth() + 1)}${__PAD2(__BOOT_NOW.getDate())}`;
+
 // Boot sequence — full BIOS/POST → kernel boot, with audio cues per line.
 const BOOT_LINES = [
   // ─────────── BIOS / POST stage ───────────
   { text: "",                                                                                 delay: 80,   sound: null },
-  { text: "Curiosity BIOS v2.1.0 — Copyright (C) 1997-2025 Léon Pupier",                       delay: 220,  sound: "power" },
-  { text: "Platform: leonOS Hardware Reference Board · BIOS Date: 11/19/2025",                 delay: 70,   sound: null },
+  { text: `Curiosity BIOS v2.1.0 — Copyright (C) 1997-${BOOT_YEAR} Léon Pupier`,                delay: 220,  sound: "power" },
+  { text: `Platform: leonOS Hardware Reference Board · BIOS Date: ${BOOT_DATE_US}`,             delay: 70,   sound: null },
   { text: "",                                                                                 delay: 100,  sound: null },
   { text: "POST: Power-On Self Test ........................... [ INIT ]",                    delay: 100,  sound: "click" },
   { text: "  CPU: Intel(R) Curiosity(TM) i9 @ 4.20GHz ......... [  OK  ]",                    delay: 80,   sound: "click" },
@@ -36,7 +44,7 @@ const BOOT_LINES = [
   { text: "[    0.000041]   BIOS-e820: [mem 0x0000000000100000-0x000000007ffeffff] usable",   delay: 50,   sound: null },
   { text: "[    0.002817] smpboot: Booting CPU 0 ............................. [ OK ]",       delay: 90,   sound: "click" },
   { text: "[    0.004012] smpboot: Booting CPU 1 ............................. [ OK ]",       delay: 70,   sound: "click" },
-  { text: "[    0.005391] ACPI: Core revision 20231215",                                      delay: 50,   sound: null },
+  { text: `[    0.005391] ACPI: Core revision ${BOOT_DATE_COMPACT}`,                            delay: 50,   sound: null },
   { text: "[    0.014820] Loading kernel modules .................. [ OK ]",                  delay: 110,  sound: "rattle" },
   { text: "[    0.022591] systemd[1]: Detected virtualization curiosity-vm.",                 delay: 60,   sound: null },
   { text: "[    0.043091] EXT4-fs (sda1): mounted /dev/leon ........ [ OK ]",                 delay: 100,  sound: "rattle" },
@@ -106,6 +114,44 @@ function Terminal({ tweaks }) {
   const [typing, setTyping] = useState(false);
   const typingTimerRef = useRef(null);
   const focusedOnceRef = useRef(false);
+  // Hide the prompt row while a freshly-pushed batch of output is animating in.
+  const [outputBusy, setOutputBusy] = useState(false);
+  const outputBusyTimerRef = useRef(null);
+  // Browsers gate AudioContext behind a user gesture. Halt the boot until
+  // the user clicks/taps/keys so the boot SFX play from the very first line.
+  const [needsGesture, setNeedsGesture] = useState(false);
+  const gateResolveRef = useRef(null);
+
+  const fireGate = useCallback(async () => {
+    // Sync portion — must run inside the user gesture for iOS to unlock.
+    const ctx = ensureAudio();
+    if (ctx) {
+      try {
+        const buf = ctx.createBuffer(1, 1, 22050);
+        const src = ctx.createBufferSource();
+        src.buffer = buf;
+        src.connect(ctx.destination);
+        src.start(0);
+      } catch (_) { /* ignore */ }
+    }
+    // Async portion — wait for the ctx to actually become "running" so the
+    // first play*() calls don't bail out as suspended.
+    if (ctx && ctx.state === "suspended") {
+      try { await ctx.resume(); } catch (_) { /* ignore */ }
+    }
+    if (gateResolveRef.current) {
+      gateResolveRef.current();
+      gateResolveRef.current = null;
+    }
+  }, []);
+
+  // While the boot gate is shown, any keydown also fires it (desktop keyboard).
+  useEffect(() => {
+    if (!needsGesture) return;
+    const onKey = () => fireGate();
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [needsGesture, fireGate]);
 
   const inputRef = useRef(null);
   const measureRef = useRef(null);
@@ -163,7 +209,15 @@ function Terminal({ tweaks }) {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      if (tweaksRef.current.sound) ensureAudio();
+      // Wait on the boot gate (resolved by fireGate via splash interaction)
+      // so the boot SFX have a running AudioContext to play through.
+      if (tweaksRef.current.sound) {
+        setNeedsGesture(true);
+        await new Promise((resolve) => { gateResolveRef.current = resolve; });
+        if (cancelled) return;
+        setNeedsGesture(false);
+      }
+
       await sleep(250);
 
       const out = [];
@@ -211,6 +265,28 @@ function Terminal({ tweaks }) {
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
+  }, []);
+
+  // Mobile audio unlock — iOS/Android gate AudioContext behind a user gesture
+  // and auto-suspend when the tab is backgrounded. Resume on any tap and on
+  // visibility change so sounds work without the user toggling anything.
+  useEffect(() => {
+    const resume = () => {
+      if (!tweaksRef.current.sound) return;
+      const ctx = ensureAudio();
+      if (ctx && ctx.state === "suspended") ctx.resume();
+    };
+    const onVis = () => {
+      if (document.visibilityState === "visible") resume();
+    };
+    window.addEventListener("pointerdown", resume, true);
+    window.addEventListener("touchstart", resume, { capture: true, passive: true });
+    document.addEventListener("visibilitychange", onVis);
+    return () => {
+      window.removeEventListener("pointerdown", resume, true);
+      window.removeEventListener("touchstart", resume, true);
+      document.removeEventListener("visibilitychange", onVis);
+    };
   }, []);
 
   // Smart copy on click — links auto-copy URL with toast
@@ -275,8 +351,23 @@ function Terminal({ tweaks }) {
     }, 4300);
   }, [closeStage]);
 
+  // Animation timing must match keyframes/stagger in styles.css (.t-fx-in)
+  const FX_DURATION_MS = 340;
+  const FX_STAGGER_MS = 30;
+
+  function scheduleInputReveal(count) {
+    const dur = Math.max(0, count - 1) * FX_STAGGER_MS + FX_DURATION_MS + 40;
+    setOutputBusy(true);
+    if (outputBusyTimerRef.current) clearTimeout(outputBusyTimerRef.current);
+    outputBusyTimerRef.current = setTimeout(() => setOutputBusy(false), dur);
+  }
+
   function pushLines(newLines) {
-    setLines(prev => [...prev, ...newLines]);
+    setLines(prev => [
+      ...prev,
+      ...newLines.map((l, i) => ({ ...l, fx: true, fxIndex: i })),
+    ]);
+    scheduleInputReveal(newLines.length);
   }
 
   // ──────────────────────────────────────────
@@ -300,9 +391,12 @@ function Terminal({ tweaks }) {
           // replace placeholder with final lines
           setLines(prev => {
             const next = [...prev];
-            next.splice(placeholderIndex, 1, ...finalLines);
+            next.splice(placeholderIndex, 1,
+              ...finalLines.map((l, i) => ({ ...l, fx: true, fxIndex: i })),
+            );
             return next;
           });
+          scheduleInputReveal(finalLines.length);
           resolve();
           return;
         }
@@ -400,6 +494,12 @@ function Terminal({ tweaks }) {
       setLines([]);
       return;
     }
+    if (result === "__exit__") {
+      // Same effect as clicking the red close button — runs the full
+      // multi-stage close gag.
+      triggerCloseGag();
+      return;
+    }
     if (result === "__matrix__") {
       await runWithSpinner("connecting to mainframe", 700, [
         { type: "muted", text: "wake up... follow the white rabbit." }
@@ -408,6 +508,19 @@ function Terminal({ tweaks }) {
       return;
     }
     if (result === "__snake__") {
+      const isTouch = typeof window !== "undefined" &&
+        window.matchMedia &&
+        window.matchMedia("(hover: none) and (pointer: coarse)").matches;
+      if (isTouch) {
+        pushLines([
+          { type: "error", text: "snake: input device not detected." },
+          { type: "muted", text: "ERR_NO_KBD: arrow keys / WASD required to drive the worm." },
+          { type: "muted", text: "boot leonOS from a desktop terminal to launch this binary." },
+        ]);
+        triggerErrorGlitch();
+        if (tweaksRef.current.sound) playBeep(0.08, 220, 0.15);
+        return;
+      }
       pushLines([{ type: "snake-inline" }]);
       return;
     }
@@ -448,7 +561,7 @@ function Terminal({ tweaks }) {
 
     pushLines(enriched);
     if (tweaksRef.current.sound) playBeep(0.04, 880, 0.06);
-  }, [triggerErrorGlitch]);
+  }, [triggerErrorGlitch, triggerCloseGag]);
 
   const runCommand = useCallback(async (raw) => {
     const echoLine = { type: "prompt", prompt: PROMPT, cmd: raw };
@@ -632,7 +745,7 @@ function Terminal({ tweaks }) {
                 ))}
 
                 {booted && (
-                  <form onSubmit={onSubmit} className="t-input-row">
+                  <form onSubmit={onSubmit} className={"t-input-row" + (outputBusy ? " t-input-row-hidden" : "")}>
                     <span className="t-prompt">{PROMPT}</span>
                     <span className="t-input-wrap">
                       <input
@@ -728,6 +841,26 @@ function Terminal({ tweaks }) {
           <div className="crt-scanlines" aria-hidden="true"></div>
           <div className="crt-flicker" aria-hidden="true"></div>
           <div className="crt-glass" aria-hidden="true"></div>
+
+          {needsGesture && (
+            <div
+              className="boot-gate"
+              role="button"
+              tabIndex={0}
+              aria-label="Boot LéonOS"
+              onPointerDown={fireGate}
+              onClick={fireGate}
+            >
+              <div className="boot-gate-frame">
+                <div className="boot-gate-title">LéonOS</div>
+                <div className="boot-gate-sub">v1.0.0 · release-stable</div>
+                <div className="boot-gate-cta">
+                  <span>press to boot</span>
+                  <span className="boot-gate-blink">▌</span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

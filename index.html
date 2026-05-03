@@ -13,6 +13,12 @@
   <meta name="theme-color" content="#0a0e0a" />
   <meta name="color-scheme" content="dark" />
 
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="alternate icon" type="image/png" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+  <link rel="mask-icon" href="/favicon.svg" color="#00ff66" />
+
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="leonpupier.fr" />
@@ -87,7 +93,6 @@
 
   <div id="root"></div>
 
-  <script type="text/babel" src="tweaks-panel.jsx"></script>
   <script type="text/babel" src="terminal-engine.jsx"></script>
   <script type="text/babel" src="animated-banner.jsx"></script>
   <script type="text/babel" src="terminal-output.jsx"></script>
@@ -96,76 +101,26 @@
   <script type="text/babel" src="terminal-app.jsx"></script>
 
   <script type="text/babel">
-    const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
-      "scanlines": true,
-      "flicker": true,
-      "sound": true,
-      "burnIn": true,
-      "curvature": true,
-      "theme": "green"
-    }/*EDITMODE-END*/;
+    // Fixed CRT defaults — themable only via the `theme` terminal command.
+    const TWEAK_DEFAULTS = {
+      scanlines: true,
+      flicker:   true,
+      sound:     true,
+      burnIn:    true,
+      curvature: true,
+    };
 
     function App() {
-      const [tweaks, setTweak] = useTweaks(TWEAK_DEFAULTS);
+      const [theme, setTheme] = React.useState("green");
 
-      // Listen for `theme <name>` command from terminal
+      // Terminal `theme <name>` command dispatches __set_theme.
       React.useEffect(() => {
-        const onSetTheme = (e) => setTweak("theme", e.detail);
+        const onSetTheme = (e) => setTheme(e.detail);
         window.addEventListener("__set_theme", onSetTheme);
         return () => window.removeEventListener("__set_theme", onSetTheme);
-      }, [setTweak]);
+      }, []);
 
-      return (
-        <>
-          <Terminal tweaks={tweaks} />
-
-          <TweaksPanel title="Tweaks">
-            <TweakSection label="Phosphor">
-              <TweakRadio
-                label="Color"
-                value={tweaks.theme}
-                onChange={v => setTweak("theme", v)}
-                options={[
-                  { value: "green",   label: "green" },
-                  { value: "amber",   label: "amber" },
-                  { value: "white",   label: "white" },
-                ]}
-              />
-            </TweakSection>
-
-            <TweakSection label="CRT Effects">
-              <TweakToggle
-                label="Scanlines"
-                value={tweaks.scanlines}
-                onChange={v => setTweak("scanlines", v)}
-              />
-              <TweakToggle
-                label="Flicker"
-                value={tweaks.flicker}
-                onChange={v => setTweak("flicker", v)}
-              />
-              <TweakToggle
-                label="Phosphor burn-in"
-                value={tweaks.burnIn}
-                onChange={v => setTweak("burnIn", v)}
-              />
-              <TweakToggle
-                label="Screen curvature"
-                value={tweaks.curvature}
-                onChange={v => setTweak("curvature", v)}
-              />
-            </TweakSection>
-
-            <TweakSection label="Audio">
-              <TweakToggle
-                label="Keyboard sounds"
-                value={tweaks.sound}
-                onChange={v => setTweak("sound", v)}
-              />
-            </TweakSection>
-          </TweaksPanel>
-        </>
-      );
+      return <Terminal tweaks={{ ...TWEAK_DEFAULTS, theme }} />;
     }
 
     const root = ReactDOM.createRoot(document.getElementById("root"));

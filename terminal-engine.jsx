@@ -23,6 +23,7 @@ const COMMANDS = {
           ["history",    "command history"],
           ["theme",      "switch phosphor (amber/green/white)"],
           ["clear",      "clear the screen"],
+          ["exit",       "close the terminal session"],
         ]},
         { title: "FUN", items: [
           ["weather",    "current weather (ASCII)"],
@@ -327,11 +328,8 @@ const COMMANDS = {
     },
   },
   exit: {
-    hidden: true,
-    run: () => [
-      { type: "muted", text: "you can't really leave a website by typing exit." },
-      { type: "muted", text: "but i appreciate the muscle memory." },
-    ],
+    desc: "close the terminal session",
+    run: () => "__exit__",
   },
   vim: {
     hidden: true,
@@ -388,7 +386,10 @@ const KEY_VARIANTS = [
 function playClick(volume = 0.08) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   const v = KEY_VARIANTS[Math.floor(Math.random() * KEY_VARIANTS.length)];
   const osc = ctx.createOscillator();
@@ -408,7 +409,10 @@ function playClick(volume = 0.08) {
 function playKeySpace(volume = 0.06) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   // bigger, lower, slightly longer "thunk"
   const osc = ctx.createOscillator();
@@ -426,7 +430,10 @@ function playKeySpace(volume = 0.06) {
 function playKeyBackspace(volume = 0.07) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -445,7 +452,10 @@ function playKeyBackspace(volume = 0.07) {
 function playKeyEnter(volume = 0.1) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   // a "ka-chunk" — two stacked notes
   const o1 = ctx.createOscillator(); const g1 = ctx.createGain();
@@ -463,7 +473,10 @@ function playKeyEnter(volume = 0.1) {
 function playFocus(volume = 0.05) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   // soft "ready" chirp — rising pitch
   const osc = ctx.createOscillator();
@@ -482,7 +495,10 @@ function playFocus(volume = 0.05) {
 function playBeep(volume = 0.1, freq = 660, dur = 0.12, type = "sine") {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   const osc = ctx.createOscillator();
   const gain = ctx.createGain();
@@ -500,7 +516,10 @@ function playBeep(volume = 0.1, freq = 660, dur = 0.12, type = "sine") {
 function playHum(durMs = 800, volume = 0.025) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   const dur = durMs / 1000;
   const osc = ctx.createOscillator();
@@ -520,7 +539,10 @@ function playHum(durMs = 800, volume = 0.025) {
 function playDiskRattle(durMs = 600, volume = 0.06) {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const start = ctx.currentTime;
   const dur = durMs / 1000;
   // pre-make a short noise buffer
@@ -550,7 +572,10 @@ function playDiskRattle(durMs = 600, volume = 0.06) {
 function playCrtPowerOn() {
   const ctx = ensureAudio();
   if (!ctx) return;
-  if (ctx.state === "suspended") ctx.resume();
+  // Skip cleanly if browser hasn't unlocked audio yet — avoids "AudioContext
+  // was not allowed to start" warnings spamming the console during boot.
+  // The audio primer in terminal-app.jsx will resume() on first user gesture.
+  if (ctx.state !== "running") return;
   const t = ctx.currentTime;
   // low thunk
   const osc1 = ctx.createOscillator();

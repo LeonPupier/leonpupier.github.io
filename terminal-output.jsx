@@ -1,27 +1,31 @@
 // Output renderers for terminal lines
 
 function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
+  // Reveal animation for post-boot output. Applied to every root element.
+  const fxClass = line.fx ? " t-fx-in" : "";
+  const fxStyle = line.fx ? { "--fx-i": line.fxIndex || 0 } : undefined;
+
   switch (line.type) {
     case "text":
-      return <div className="t-line">{line.text}</div>;
+      return <div className={"t-line" + fxClass} style={fxStyle}>{line.text}</div>;
     case "muted":
-      return <div className="t-line t-muted">{line.text}</div>;
+      return <div className={"t-line t-muted" + fxClass} style={fxStyle}>{line.text}</div>;
     case "error":
-      return <div className="t-line t-error">{line.text}</div>;
+      return <div className={"t-line t-error" + fxClass} style={fxStyle}>{line.text}</div>;
     case "section":
-      return <div className="t-line t-section">{line.text}</div>;
+      return <div className={"t-line t-section" + fxClass} style={fxStyle}>{line.text}</div>;
     case "spacer":
-      return <div className="t-line">&nbsp;</div>;
+      return <div className={"t-line" + fxClass} style={fxStyle}>&nbsp;</div>;
     case "prompt":
       return (
-        <div className="t-line">
+        <div className={"t-line" + fxClass} style={fxStyle}>
           <span className="t-prompt">{line.prompt}</span>
           <span>{line.cmd}</span>
         </div>
       );
     case "kv":
       return (
-        <div className="t-line t-kv">
+        <div className={"t-line t-kv" + fxClass} style={fxStyle}>
           <span className="t-kv-key">{line.k.padEnd(10, " ")}</span>
           <span className="t-kv-sep">:: </span>
           <span>{line.v}</span>
@@ -29,7 +33,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "cmdlist":
       return (
-        <div className="t-cmdlist">
+        <div className={"t-cmdlist" + fxClass} style={fxStyle}>
           {line.items.map(([cmd, desc]) => (
             <div key={cmd} className="t-line">
               <span className="t-cmd">{cmd.padEnd(12, " ")}</span>
@@ -40,7 +44,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "catlist":
       return (
-        <div className="t-catlist">
+        <div className={"t-catlist" + fxClass} style={fxStyle}>
           {line.categories.map((cat) => (
             <div key={cat.title} className="t-cat">
               <div className="t-cat-title">┌─ {cat.title} ─┐</div>
@@ -58,7 +62,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "group":
       return (
-        <div className="t-line t-group">
+        <div className={"t-line t-group" + fxClass} style={fxStyle}>
           <span className="t-kv-key">{line.title.padEnd(16, " ")}</span>
           <span className="t-kv-sep">:: </span>
           <span>{line.items.join(" · ")}</span>
@@ -66,7 +70,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "exp":
       return (
-        <div className="t-exp">
+        <div className={"t-exp" + fxClass} style={fxStyle}>
           <div className="t-line">
             <span className="t-cmd">▸ {line.role}</span>
             <span className="t-muted"> @ {line.org}</span>
@@ -79,7 +83,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "link":
       return (
-        <div className="t-line">
+        <div className={"t-line" + fxClass} style={fxStyle}>
           <span className="t-kv-key">{line.label}</span>
           <span className="t-kv-sep">:: </span>
           <a
@@ -99,7 +103,7 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
       );
     case "ls":
       return (
-        <div className="t-ls">
+        <div className={"t-ls" + fxClass} style={fxStyle}>
           {line.items.map(([name, size]) => (
             <div key={name} className="t-line t-ls-row">
               <span className="t-muted">-rw-r--r--</span>
@@ -111,11 +115,12 @@ function OutputLine({ line, onBannerDone, onCopy, onSnakeExit }) {
         </div>
       );
     case "banner":
-      return <pre className="t-banner">{line.text}</pre>;
+      return <pre className={"t-banner" + fxClass} style={fxStyle}>{line.text}</pre>;
     case "anim-banner":
+      // Has its own reveal animation — skip fx wrapper.
       return <AnimatedBanner text={line.text} soundOn={line.soundOn} onDone={onBannerDone} />;
     case "raw":
-      return <div className="t-line">{line.text}</div>;
+      return <div className={"t-line" + fxClass} style={fxStyle}>{line.text}</div>;
     case "snake-inline":
       return (
         <div className="t-line">

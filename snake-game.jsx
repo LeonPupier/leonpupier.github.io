@@ -175,6 +175,12 @@ function SnakeGame({ onClose }) {
     function exit() {
       cancelAnimationFrame(state.raf);
       stateRef.current = null;
+      // Explicitly tear down the key listener — the component stays mounted
+      // (parent keeps the snake-inline line in `lines`), so the useEffect
+      // cleanup wouldn't fire on its own and the listener would keep
+      // swallowing arrows / WASD / R / Esc, breaking those keys in the
+      // terminal input afterwards.
+      window.removeEventListener("keydown", onKey, true);
       setExited(true);
       if (onClose) onClose(finalScoreRef.current);
     }

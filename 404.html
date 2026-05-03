@@ -1,0 +1,519 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>404 — leonpupier.fr</title>
+  <meta name="robots" content="noindex" />
+  <meta name="theme-color" content="#0a0e0a" />
+  <meta name="color-scheme" content="dark" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="apple-touch-icon" href="/favicon.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    .nf-art {
+      color: var(--fg-bright);
+      text-shadow: var(--glow-strong);
+      font-size: clamp(9px, 2.4vw, 13px);
+      line-height: 1.05;
+      margin: 0 0 16px;
+      white-space: pre;
+      font-weight: 700;
+    }
+
+    .nf-panic { margin: 0 0 16px; }
+    .nf-panic > .t-line + .t-line { margin-top: 2px; }
+
+    .nf-kv {
+      display: grid;
+      grid-template-columns: 80px 14px 1fr;
+      column-gap: 4px;
+      row-gap: 2px;
+      margin: 0 0 18px;
+      font-variant-numeric: tabular-nums;
+    }
+    .nf-kv-k { color: var(--fg-bright); text-shadow: var(--glow); }
+    .nf-kv-s { color: var(--fg-muted); }
+    .nf-kv-v { color: var(--fg); word-break: break-all; }
+    .nf-kv-v.err { color: var(--error); text-shadow: 0 0 6px rgba(255, 95, 86, 0.45); }
+    .nf-kv-v.muted { color: var(--fg-muted); }
+
+    .nf-section {
+      color: var(--accent);
+      text-shadow: 0 0 6px rgba(255, 207, 58, 0.4);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      margin: 0 0 6px;
+    }
+
+    .nf-trace {
+      color: var(--fg-muted);
+      text-shadow: var(--glow);
+      margin: 0 0 18px;
+      padding-left: 2px;
+    }
+    .nf-trace > div { white-space: pre; }
+
+    .nf-recovery { margin: 0 0 20px; }
+    .nf-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 6px 0 4px;
+      max-width: 520px;
+    }
+    .nf-bar {
+      flex: 1;
+      height: 12px;
+      border: 1px solid var(--fg-dim);
+      background: rgba(0, 0, 0, 0.45);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.18s;
+    }
+    .nf-bar.stalled {
+      border-color: var(--error);
+    }
+    .nf-bar-fill {
+      display: block;
+      height: 100%;
+      width: 0%;
+      background: var(--fg);
+      box-shadow: 0 0 6px var(--fg);
+      animation: nf-fill 4s cubic-bezier(0.2, 0.8, 0.6, 1) forwards;
+      animation-delay: var(--bar-delay, 0ms);
+      transition: background 0.18s, box-shadow 0.18s;
+    }
+    .nf-bar-fill.stalled {
+      background: var(--error);
+      box-shadow: 0 0 10px rgba(255, 95, 86, 0.8);
+    }
+    @keyframes nf-fill {
+      0%   { width: 0%; }
+      80%  { width: 42%; }
+      100% { width: 42%; }
+    }
+    .nf-bar-pct {
+      color: var(--fg-muted);
+      min-width: 60px;
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+      transition: color 0.18s, text-shadow 0.18s;
+    }
+    .nf-bar-pct.stalled {
+      color: var(--error);
+      text-shadow: 0 0 6px rgba(255, 95, 86, 0.55);
+    }
+
+    /* "recovery failed" line — flush left, no cursor, hidden until bar peaks. */
+    .nf-stalled {
+      color: var(--error);
+      text-shadow: 0 0 6px rgba(255, 95, 86, 0.45);
+      letter-spacing: 0.04em;
+      margin-top: 6px;
+      padding-left: 0;
+      opacity: 0;
+      transform: translateY(2px);
+      transition: opacity 220ms ease-out, transform 220ms ease-out;
+    }
+    .nf-stalled.shown {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .nf-action {
+      margin-top: 14px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+      opacity: 0;
+      transform: translateY(2px);
+      pointer-events: none;
+      transition: opacity 240ms ease-out, transform 240ms ease-out;
+    }
+    .nf-action.shown {
+      opacity: 1;
+      transform: translateY(0);
+      pointer-events: auto;
+    }
+    .nf-btn {
+      display: inline-block;
+      padding: 8px 16px;
+      border: 1px solid var(--fg-muted);
+      color: var(--fg-bright);
+      text-shadow: var(--glow-strong);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+      transition: background 0.15s, border-color 0.15s, box-shadow 0.15s;
+    }
+    .nf-btn:hover {
+      background: rgba(0, 255, 102, 0.08);
+      border-color: var(--fg-bright);
+      box-shadow: 0 0 10px rgba(0, 255, 102, 0.35);
+    }
+    .nf-action-hint {
+      color: var(--fg-muted);
+      font-size: 0.92em;
+    }
+
+    @media (max-width: 480px) {
+      .nf-kv { grid-template-columns: 70px 14px 1fr; }
+      .nf-bar-pct { min-width: 50px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .nf-bar-fill { animation: none; width: 42%; }
+      .nf-stalled { transition: none; }
+    }
+
+    /* While the boot gate is up, freeze every reveal animation so the
+       sequence kicks off in sync with the gesture (and audio unlock). */
+    body.nf-gated .t-fx-in,
+    body.nf-gated .nf-bar-fill {
+      animation-play-state: paused !important;
+    }
+  </style>
+</head>
+<body class="nf-gated">
+  <h1 class="visually-hidden">404 — Page not found · leonpupier.fr</h1>
+
+  <div class="crt-outer curve-on">
+    <div class="crt-frame" id="nf-frame">
+      <div class="crt-screen">
+        <div class="window">
+          <div class="window-chrome">
+            <div class="dots">
+              <a class="dot dot-r" href="/" aria-label="Return home" title="return home"></a>
+              <span class="dot dot-y"></span>
+              <span class="dot dot-g"></span>
+            </div>
+            <div class="window-title">
+              guest@leonpupier.fr — kernel panic — tty1
+            </div>
+            <div class="window-meta">404</div>
+          </div>
+
+          <div class="window-body">
+
+            <pre class="nf-art t-fx-in" style="--fx-i: 0">
+██╗  ██╗ ██████╗ ██╗  ██╗
+██║  ██║██╔═████╗██║  ██║
+███████║██║██╔██║███████║
+╚════██║████╔╝██║╚════██║
+     ██║╚██████╔╝     ██║
+     ╚═╝ ╚═════╝      ╚═╝</pre>
+
+            <div class="nf-panic">
+              <div class="t-line t-error t-fx-in" style="--fx-i: 8">[ !!! ] KERNEL PANIC — page fault in non-paged area</div>
+              <div class="t-line t-muted t-fx-in" style="--fx-i: 9">fault: requested route not found in /var/www</div>
+            </div>
+
+            <div class="nf-kv" role="list">
+              <div class="nf-kv-k t-fx-in" style="--fx-i: 12">path</div>
+              <div class="nf-kv-s t-fx-in" style="--fx-i: 12">::</div>
+              <div class="nf-kv-v err t-fx-in" style="--fx-i: 12"><span id="nf-path">/unknown</span></div>
+
+              <div class="nf-kv-k t-fx-in" style="--fx-i: 13">status</div>
+              <div class="nf-kv-s t-fx-in" style="--fx-i: 13">::</div>
+              <div class="nf-kv-v t-fx-in" style="--fx-i: 13">404 NOT FOUND</div>
+
+              <div class="nf-kv-k t-fx-in" style="--fx-i: 14">handler</div>
+              <div class="nf-kv-s t-fx-in" style="--fx-i: 14">::</div>
+              <div class="nf-kv-v muted t-fx-in" style="--fx-i: 14">leonOS::router::dispatch()</div>
+            </div>
+
+            <div class="nf-section t-fx-in" style="--fx-i: 17">// STACK TRACE</div>
+            <div class="nf-trace">
+              <div class="t-fx-in" style="--fx-i: 18">at fs::resolve_route()         +0x42</div>
+              <div class="t-fx-in" style="--fx-i: 19">at router::dispatch()          +0xff</div>
+              <div class="t-fx-in" style="--fx-i: 20">at human::curiosity_loop()     +&infin;</div>
+            </div>
+
+            <div class="nf-section t-fx-in" style="--fx-i: 23">// RECOVERY</div>
+            <div class="nf-recovery">
+              <div class="t-line t-muted t-fx-in" style="--fx-i: 24">attempting graceful recovery&hellip;</div>
+              <div class="nf-bar-row t-fx-in" style="--fx-i: 25; --bar-delay: 1090ms">
+                <span class="nf-bar" id="nf-bar"><span class="nf-bar-fill" id="nf-bar-fill"></span></span>
+                <span class="nf-bar-pct" id="nf-pct">0%</span>
+              </div>
+              <div class="nf-stalled" id="nf-stalled">
+                recovery failed — manual intervention required
+              </div>
+            </div>
+
+            <div class="nf-action" id="nf-action">
+              <a class="nf-btn" href="/">[ return home &raquo; ]</a>
+              <span class="nf-action-hint">the only valid route is <span class="t-cmd">/</span></span>
+            </div>
+
+          </div>
+
+          <div class="window-footer">
+            <span class="t-muted">tip: type `help` once you're back home to explore the terminal.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="crt-burn" aria-hidden="true"></div>
+      <div class="crt-vignette" aria-hidden="true"></div>
+      <div class="crt-scanlines" aria-hidden="true"></div>
+      <div class="crt-flicker" aria-hidden="true"></div>
+      <div class="crt-glass" aria-hidden="true"></div>
+
+      <div
+        class="boot-gate"
+        id="nf-gate"
+        role="button"
+        tabindex="0"
+        aria-label="Inspect kernel panic"
+      >
+        <div class="boot-gate-frame">
+          <div class="boot-gate-title">LéonOS</div>
+          <div class="boot-gate-sub">kernel panic detected</div>
+          <div class="boot-gate-cta">
+            <span>press to inspect</span>
+            <span class="boot-gate-blink">▌</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // ── Inject the actual requested path into the kernel-panic readout.
+      document.getElementById("nf-path").textContent =
+        location.pathname + location.search + location.hash;
+
+      // ── Stagger constants — must match `.t-fx-in` in styles.css.
+      var FX_STAGGER = 30;
+      var FX_DURATION = 340;
+      function fxAt(i) { return i * FX_STAGGER + FX_DURATION; }
+
+      var frame = document.getElementById("nf-frame");
+      var bar = document.getElementById("nf-bar");
+      var barFill = document.getElementById("nf-bar-fill");
+      var pct = document.getElementById("nf-pct");
+      var stalled = document.getElementById("nf-stalled");
+      var action = document.getElementById("nf-action");
+
+      // ─────────────────────────────────────────────────────────────
+      // Audio — minimal Web Audio synth (vanilla, no React). Browsers
+      // gate AudioContext behind a user gesture. We try resume() and
+      // fall back to silent if blocked. Sticky activation from the
+      // navigation that brought the user here often suffices.
+      // ─────────────────────────────────────────────────────────────
+      var audioCtx = null;
+      function ctx() {
+        if (audioCtx) return audioCtx;
+        try {
+          var Ctx = window.AudioContext || window.webkitAudioContext;
+          if (!Ctx) return null;
+          audioCtx = new Ctx();
+        } catch (e) { return null; }
+        return audioCtx;
+      }
+      function ensureRunning() {
+        var c = ctx();
+        if (!c) return null;
+        if (c.state === "suspended") c.resume().catch(function () {});
+        return c.state === "running" ? c : null;
+      }
+      // Synchronous unlock — must run inside the gesture frame on iOS.
+      function unlockSync() {
+        var c = ctx();
+        if (!c) return;
+        try {
+          var buf = c.createBuffer(1, 1, 22050);
+          var src = c.createBufferSource();
+          src.buffer = buf;
+          src.connect(c.destination);
+          src.start(0);
+        } catch (e) {}
+        if (c.state === "suspended") {
+          try { c.resume(); } catch (e) {}
+        }
+      }
+
+      function beep(vol, freq, dur, type) {
+        var c = ensureRunning(); if (!c) return;
+        var t = c.currentTime;
+        var osc = c.createOscillator();
+        var g = c.createGain();
+        osc.frequency.value = freq;
+        osc.type = type || "sine";
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(vol, t + 0.005);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+        osc.connect(g).connect(c.destination);
+        osc.start(t);
+        osc.stop(t + dur + 0.02);
+      }
+      function click(vol) {
+        var c = ensureRunning(); if (!c) return;
+        var t = c.currentTime;
+        var osc = c.createOscillator();
+        var g = c.createGain();
+        osc.frequency.value = 1100 + Math.random() * 500;
+        osc.type = "square";
+        g.gain.setValueAtTime(0, t);
+        g.gain.linearRampToValueAtTime(vol, t + 0.002);
+        g.gain.exponentialRampToValueAtTime(0.0001, t + 0.04);
+        osc.connect(g).connect(c.destination);
+        osc.start(t);
+        osc.stop(t + 0.05);
+      }
+      function rattle(durMs, vol) {
+        var c = ensureRunning(); if (!c) return;
+        var start = c.currentTime;
+        var dur = durMs / 1000;
+        var buf = c.createBuffer(1, c.sampleRate * 0.02, c.sampleRate);
+        var data = buf.getChannelData(0);
+        for (var i = 0; i < data.length; i++) data[i] = Math.random() * 2 - 1;
+        var elapsed = 0;
+        while (elapsed < dur) {
+          var at = start + elapsed;
+          var src = c.createBufferSource();
+          src.buffer = buf;
+          var g = c.createGain();
+          g.gain.setValueAtTime(0, at);
+          g.gain.linearRampToValueAtTime(vol * (0.5 + Math.random() * 0.6), at + 0.002);
+          g.gain.exponentialRampToValueAtTime(0.0001, at + 0.018);
+          var filt = c.createBiquadFilter();
+          filt.type = "highpass";
+          filt.frequency.value = 1500 + Math.random() * 2000;
+          src.connect(filt).connect(g).connect(c.destination);
+          src.start(at); src.stop(at + 0.025);
+          elapsed += 0.025 + Math.random() * 0.05;
+        }
+      }
+      function glitch() {
+        // chunky low buzz + rasp
+        beep(0.1, 90, 0.32, "sawtooth");
+        setTimeout(function () { beep(0.07, 140, 0.18, "square"); }, 80);
+      }
+
+      // ─────────────────────────────────────────────────────────────
+      // Screen shake — adds the terminal's `.glitching` class so the
+      // existing err-shake keyframes play.
+      // ─────────────────────────────────────────────────────────────
+      function shake() {
+        if (!frame) return;
+        frame.classList.remove("glitching");
+        void frame.offsetWidth;
+        frame.classList.add("glitching");
+        setTimeout(function () { frame.classList.remove("glitching"); }, 350);
+      }
+
+      // ─────────────────────────────────────────────────────────────
+      // Boot gate — defer the whole reveal sequence behind a user
+      // gesture so AudioContext is unlocked and sounds play in sync
+      // with the animations from the very first frame.
+      // ─────────────────────────────────────────────────────────────
+      var gate = document.getElementById("nf-gate");
+      var started = false;
+
+      function startSequence() {
+        if (started) return;
+        started = true;
+        unlockSync();
+        // Hide gate, release the paused animations.
+        gate.style.transition = "opacity 220ms ease-out";
+        gate.style.opacity = "0";
+        setTimeout(function () { if (gate.parentNode) gate.parentNode.removeChild(gate); }, 240);
+        document.body.classList.remove("nf-gated");
+        scheduleAll();
+      }
+
+      function onGesture(e) {
+        startSequence();
+      }
+      gate.addEventListener("pointerdown", onGesture);
+      gate.addEventListener("click", onGesture);
+      gate.addEventListener("touchstart", onGesture, { passive: true });
+      window.addEventListener("keydown", onGesture, { once: true });
+
+      // ─────────────────────────────────────────────────────────────
+      // Scheduling — every reveal triggers a click; errors trigger a
+      // glitch shake; the bar reveal kicks off rattle + % counter; the
+      // bar peak triggers fail beep + bar→red + stalled text reveal.
+      // ─────────────────────────────────────────────────────────────
+      var lineTicks = [
+        { i: 0,  vol: 0.04 },                         // ASCII art
+        { i: 8,  vol: 0.0,  isError: true },          // panic line — handled by glitch
+        { i: 9,  vol: 0.04 },
+        { i: 12, vol: 0.05 },
+        { i: 13, vol: 0.05 },
+        { i: 14, vol: 0.05 },
+        { i: 17, vol: 0.06 },                         // section: trace
+        { i: 18, vol: 0.04 },
+        { i: 19, vol: 0.04 },
+        { i: 20, vol: 0.04 },
+        { i: 23, vol: 0.06 },                         // section: recovery
+        { i: 24, vol: 0.05 },
+        { i: 25, vol: 0.05 },                         // bar row reveal
+      ];
+
+      var BAR_START = fxAt(25);
+      var BAR_DUR = 4000;
+      var BAR_PEAK_T = 0.8;     // 80% of duration → 42%
+      var BAR_PEAK_V = 42;
+      var PEAK_AT = BAR_START + BAR_DUR * BAR_PEAK_T;
+
+      function easeOut(t) { return 1 - Math.pow(1 - t, 2); }
+
+      function scheduleAll() {
+        lineTicks.forEach(function (t) {
+          if (t.isError) return;
+          setTimeout(function () { click(t.vol); }, fxAt(t.i));
+        });
+
+        // Panic shake + glitch sound.
+        setTimeout(function () { shake(); glitch(); }, fxAt(8));
+
+        // Recovery: rattle while the bar fills + counter ramp.
+        setTimeout(function () {
+          rattle(BAR_DUR * BAR_PEAK_T, 0.05);
+          var t0 = performance.now();
+          function step(now) {
+            var raw = (now - t0) / BAR_DUR;
+            if (raw > 1) raw = 1;
+            var prog = raw < BAR_PEAK_T ? raw / BAR_PEAK_T : 1;
+            var v = Math.round(easeOut(prog) * BAR_PEAK_V);
+            pct.textContent = v + "%";
+            if (raw < 1) requestAnimationFrame(step);
+          }
+          requestAnimationFrame(step);
+        }, BAR_START);
+
+        // At the peak: stall everything — bar red, % red, stalled text in,
+        // shake the screen, fail-beep + glitch.
+        setTimeout(function () {
+          bar.classList.add("stalled");
+          barFill.classList.add("stalled");
+          pct.classList.add("stalled");
+          stalled.classList.add("shown");
+          shake();
+          glitch();
+          beep(0.1, 200, 0.45, "sawtooth");
+          setTimeout(function () { beep(0.08, 140, 0.35, "square"); }, 220);
+        }, PEAK_AT);
+
+        // Action — only surfaces once the bar has visibly failed, so the
+        // user reads "recovery failed" first and then gets the way out.
+        setTimeout(function () {
+          action.classList.add("shown");
+          click(0.07);
+        }, PEAK_AT + 600);
+      }
+    })();
+  </script>
+</body>
+</html>
